@@ -4,15 +4,21 @@
   "description": "Backend for Uber Eats Clone app",
   "main": "index.js",
   "scripts": {
-    "start": "node app.js",
+    "start": "node app/app.js",
+    "dev": "nodemon app/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1",
+    "joi": "^17.4.2",
     "mocha": "^9.1.1",
-    "sequelize": "^6.6.5"
+    "mysql2": "^2.3.0",
+    "nodemon": "^2.0.12",
+    "redux": "^4.1.1",
+    "sequelize": "^6.6.5",
+    "sequelize-cli": "^6.2.0"
   },
   "devDependencies": {
     "eslint": "^7.32.0",

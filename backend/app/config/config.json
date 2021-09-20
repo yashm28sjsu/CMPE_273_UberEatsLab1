@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "root",
+    "password": "adminadmin",
+    "database": "uber_eats_development",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "test": {
+    "username": "root",
+    "password": "adminadmin",
+    "database": "uber_eats_test",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "admin",
+    "password": "adminadmin",
+    "database": "uber-eats",
+    "host": "uber-eats.cb8gkrfxqvvk.us-east-2.rds.amazonaws.com",
+    "dialect": "mysql"
+  }
+}

@@ -1,0 +1,12 @@
+{
+    "firstname": "Yash",
+    "lastname": "Modi",
+    "email": "yashkishorbhai.modi@sjsu.edu",
+    "password": "test123",
+    "type": "USER",
+    "profile_picture": null,
+    "dob": null,
+    "nickname": "modi",
+    "contact": "+11234567890",
+    "country": "United States"
+}
