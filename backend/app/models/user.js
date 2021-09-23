@@ -14,6 +14,8 @@ module.exports = (sequelize, DataTypes) => {
   }
 
   User.schema = Joi.object({
+    id: Joi.number(),
+
     firstname: Joi.string()
       .alphanum()
       .min(3)
