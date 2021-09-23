@@ -8,9 +8,9 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    // static associate(models) {
-    // define association here
-    // }
+    static associate({ Restaurant }) {
+      this.hasMany(Restaurant, { foreignKey: 'userId', as: 'restaurants' });
+    }
   }
 
   User.schema = Joi.object({
@@ -41,11 +41,13 @@ module.exports = (sequelize, DataTypes) => {
       .required(),
 
     profile_picture: Joi.string()
-      .dataUri(),
+      .dataUri()
+      .allow(null),
 
     dob: Joi.string()
       .isoDate()
-      .required(),
+      .required()
+      .allow(null),
 
     country: Joi.string()
       .valid('United States', 'India'),
@@ -54,6 +56,8 @@ module.exports = (sequelize, DataTypes) => {
       .length(10)
       .pattern(/^[0-9]+$/)
       .required(),
+
+    type: Joi.string().required(),
   });
 
   User.init({

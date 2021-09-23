@@ -1,6 +1,7 @@
 const express = require('express');
 const db = require('./models');
 const userRoutes = require('./routes/user');
+const restaurantRoutes = require('./routes/restaurant');
 
 const app = express();
 app.use(express.json());
@@ -17,6 +18,7 @@ app.get('/', (_, res) => {
 });
 
 app.use('/user', userRoutes);
+app.use('/restaurant', restaurantRoutes);
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);

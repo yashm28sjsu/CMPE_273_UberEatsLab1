@@ -8,9 +8,23 @@ const create = async (req, res) => {
 
   if (!validation.error) {
     try {
-      const dbuser = await db.User.create(user);
-      console.log(dbuser);
-      res.json(dbuser);
+      const existing = await db.User.findOne({
+        attributes: ['id'],
+        where: {
+          email: user.email,
+        },
+      });
+      console.log(`QUERY: ${existing}`);
+      if (existing === null) {
+        const dbuser = await db.User.create(user);
+        console.log(dbuser);
+        res.json(dbuser);
+      } else {
+        res.json({
+          error:
+            'Account already exists for this email address. Please verify and try again.',
+        });
+      }
     } catch (err) {
       console.log(err);
       res.status(500).json(err);
