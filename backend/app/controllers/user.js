@@ -71,7 +71,26 @@ const update = async (req, res) => {
   }
 };
 
+const login = async (req,res) => {
+  const email = req.body.username;
+  try {
+    const existing = await db.User.findOne({
+      attributes: ['password'],
+      where: { email }
+    });
+    if (existing != null && existing.password === req.body.password) {
+      res.json({ success: true });
+    } else {
+      res.json({ error: "Username and/or Password are not correct. please verify and try again." });
+    }
+  } catch (err){
+      console.log(err);
+      res.status(500).json(err);
+  }
+}
+
 module.exports = {
   create,
   update,
+  login,
 };

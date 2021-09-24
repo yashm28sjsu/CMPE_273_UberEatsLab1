@@ -21,5 +21,6 @@
     "description": "Chinese Food of All Kinds",
     "rating": "4",
     "contact": "1234567890",
-    "country": "United States"
+    "country": "United States",
+    "userId": 1
 }
