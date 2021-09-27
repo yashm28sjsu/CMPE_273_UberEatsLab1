@@ -34,9 +34,7 @@ module.exports = (sequelize, DataTypes) => {
       .max(30),
 
     password: Joi.string()
-      .min(6)
-      .max(18)
-      .pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')),
+      .pattern(new RegExp('[a-z0-9-]+[0-9A-Za-z./+=,$-]+$')),
 
     email: Joi.string()
       .email()
