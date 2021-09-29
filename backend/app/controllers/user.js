@@ -3,6 +3,8 @@ const jwt = require('jsonwebtoken');
 const db = require('../models');
 const secrets = require('../config/access.json');
 
+const EXPIRATION_TIME = '1h';
+
 async function hashPassword(password) {
   const salt = await bcrypt.genSalt(10);
   const hash = await bcrypt.hash(password, salt);
@@ -57,8 +59,15 @@ const create = async (req, res) => {
       if (existing === null) {
         const dbuser = await db.User.create(user);
         console.log(dbuser);
-        const token = jwt.sign({ id: dbuser.id }, secrets.access_token_secret);
-        res.json({ user: dbuser, token });
+        const token = jwt.sign(
+          { id: dbuser.id },
+          secrets.access_token_secret,
+          { expiresIn: EXPIRATION_TIME },
+        );
+        const {
+          createdAt, updatedAt, password, ...remaining
+        } = dbuser.dataValues;
+        res.json({ user: remaining, token });
       } else {
         res.json({
           error:
@@ -115,14 +124,23 @@ const login = async (req, res) => {
   const email = req.body.username;
   try {
     const existing = await db.User.findOne({
-      attributes: ['id', 'email', 'password'],
       where: { email },
     });
     if (existing != null) {
       const match = await comparePassword(req.body.password, existing.password);
       if (match) {
-        const token = jwt.sign({ id: existing.id }, secrets.access_token_secret);
-        res.json({ user: existing, token });
+        const token = jwt.sign(
+          { id: existing.id },
+          secrets.access_token_secret,
+          { expiresIn: EXPIRATION_TIME },
+        );
+        const {
+          password,
+          createdAt,
+          updatedAt,
+          ...user
+        } = existing.dataValues;
+        res.json({ user, token });
       } else {
         res.json({ error: 'Username and/or Password are not correct. please verify and try again.' });
       }
