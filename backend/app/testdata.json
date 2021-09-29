@@ -1,26 +1,27 @@
-{
-    "firstname": "Yash",
-    "lastname": "Modi",
-    "email": "yashkishorbhai.modi2@sjsu.edu",
-    "password": "teqwertyu",
-    "type": "USER",
-    "profile_picture": null,
-    "dob": null,
-    "nickname": "modi",
-    "contact": "1234567890",
-    "country": "United States"
-}
-
-{
-    "name": "Panda Express",
-    "tags": "Chinese,Takeout",
-    "address": "W San Carlos St",
-    "starttime": "10:00",
-    "endtime": "22:00",
-    "location": null,
-    "description": "Chinese Food of All Kinds",
-    "rating": "4",
-    "contact": "1234567890",
-    "country": "United States",
-    "userId": 1
-}
+[
+    {
+        "firstname": "Yash",
+        "lastname": "Modi",
+        "email": "yashkishorbhai.modi2@sjsu.edu",
+        "password": "teqwertyu",
+        "type": "USER",
+        "profile_picture": null,
+        "dob": null,
+        "nickname": "modi",
+        "contact": "1234567890",
+        "country": "United States"
+    },
+    {
+        "name": "Panda Express",
+        "tags": "Chinese,Takeout",
+        "address": "W San Carlos St",
+        "starttime": "10:00",
+        "endtime": "22:00",
+        "location": null,
+        "description": "Chinese Food of All Kinds",
+        "rating": "4",
+        "contact": "1234567890",
+        "country": "United States",
+        "userId": 1
+    }
+]
