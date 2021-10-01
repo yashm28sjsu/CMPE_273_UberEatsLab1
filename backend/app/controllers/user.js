@@ -67,7 +67,7 @@ const create = async (req, res) => {
         const {
           createdAt, updatedAt, password, ...remaining
         } = dbuser.dataValues;
-        res.json({ user: remaining, token });
+        res.json({ user: { ...remaining, type: 'USER' }, token });
       } else {
         res.json({
           error:
@@ -76,10 +76,10 @@ const create = async (req, res) => {
       }
     } catch (err) {
       console.log(err);
-      res.status(500).json(err);
+      res.status(200).json({ error: err });
     }
   } else {
-    res.status(500).json({ err: validation.error });
+    res.status(200).json({ error: validation.error.details[0].message });
   }
 };
 
@@ -113,10 +113,10 @@ const update = async (req, res) => {
       }
     } catch (err) {
       console.log(err);
-      res.status(500).json(err);
+      res.status(200).json({ error: err });
     }
   } else {
-    res.status(500).json({ err: validation.error });
+    res.status(200).json({ error: validation.error });
   }
 };
 
@@ -140,16 +140,16 @@ const login = async (req, res) => {
           updatedAt,
           ...user
         } = existing.dataValues;
-        res.json({ user, token });
+        res.json({ user: { ...user, type: 'USER' }, token });
       } else {
-        res.json({ error: 'Username and/or Password are not correct. please verify and try again.' });
+        res.json({ error: 'Username and/or Password are not correct. Please verify and try again.' });
       }
     } else {
-      res.json({ error: 'User does not exist with given username.' });
+      res.json({ error: 'User does not exist with given Email Address.' });
     }
   } catch (err) {
     console.log(err);
-    res.status(500).json(err);
+    res.status(200).json({ error: err });
   }
 };
 
@@ -157,5 +157,7 @@ module.exports = {
   create,
   update,
   login,
+  hashPassword,
+  comparePassword,
   authenticateToken,
 };

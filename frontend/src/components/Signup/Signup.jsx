@@ -1,41 +1,78 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import {
-  Form, Row, Col, Button,
-} from 'react-bootstrap';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { Redirect } from 'react-router-dom';
+import { Form } from 'react-bootstrap';
+import produce from 'immer';
+import axios from 'axios';
+import Restaurant from './Restaurant';
+import User from './User';
+import userActions from '../../actions/user';
 import './Signup.css';
 
-const Signup = () => (
-  <Form className="mx-auto my-auto">
-    <Form.Group as={Row} className="mb-3" controlId="formPlaintextEmail">
-      <Form.Label column sm="2">
-        Email
-      </Form.Label>
-      <Col sm="10">
-        <Form.Control plaintext readOnly defaultValue="email@example.com" />
-      </Col>
-    </Form.Group>
-    <Form.Group as={Row} className="mb-3" controlId="formPlaintextPassword">
-      <Form.Label column sm="2">
-        Password
-      </Form.Label>
-      <Col sm="10">
-        <Form.Control type="password" placeholder="Password" />
-      </Col>
-    </Form.Group>
-    <Form.Group as={Row} className="mb-3">
-      <Col sm="10">
-        <Button variant="primary" type="submit">Sign In</Button>
-      </Col>
-    </Form.Group>
-    <Form.Group as={Row} className="mb-3">
-      <Col sm="10">
-        Already use Sober-Eats?
-        {' '}
-        <Link to="/login">Sign In</Link>
-      </Col>
-    </Form.Group>
-  </Form>
-);
+const config = require('../../config/config.json');
+
+const env = process.env.NODE_ENV || 'development';
+const { url } = config[env];
+
+const signup = async (e, user, dispatch, setLoggedIn, setError) => {
+  e.preventDefault();
+
+  const path = window.location.href.includes('restaurant') ? '/restaurant/create' : '/user/create';
+  try {
+    const response = await axios.post(url + path, user);
+    if (response.status === 200) {
+      if (response.data.token != null) {
+        window.localStorage.setItem('token', response.data.token);
+        // console.log(response.data.user);
+        dispatch(userActions.getLoginAction(response.data.user));
+        setLoggedIn(true);
+      } else {
+        setError(response.data.error);
+      }
+    }
+  } catch (err) {
+    // console.log(err);
+  }
+
+  axios.defaults.withCredentials = true;
+};
+
+const onChangeListener = (e, setState) => {
+  const key = e.target.getAttribute('name');
+  const { value } = e.target;
+  setState((prevState) => (
+    produce(prevState, (draftState) => {
+      // eslint-disable-next-line no-param-reassign
+      draftState[key] = value;
+    })
+  ));
+};
+
+const Signup = () => {
+  const [isLoggedIn, setLoggedIn] = useState(false);
+  const [user, setUser] = useState({
+    country: 'United States',
+  });
+  const [error, setError] = useState('');
+  const dispatch = useDispatch();
+
+  const redirect = isLoggedIn ? (<Redirect to="/feed" />) : '';
+  const formData = window.location.href.includes('restaurant')
+    ? (
+      <Restaurant onChangeListener={onChangeListener} setUser={setUser} error={error.toString()} />
+    )
+    : (
+      <User onChangeListener={onChangeListener} setUser={setUser} error={error.toString()} />
+    );
+
+  return (
+    <div className="form-container">
+      {redirect}
+      <Form onSubmit={(e) => signup(e, user, dispatch, setLoggedIn, setError)}>
+        {formData}
+      </Form>
+    </div>
+  );
+};
 
 export default Signup;

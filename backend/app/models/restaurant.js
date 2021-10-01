@@ -10,9 +10,9 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    static associate({ User }) {
-      this.belongsTo(User, { foreignKey: 'userId', as: 'owner' });
-    }
+    // static associate({ User }) {
+    //   this.belongsTo(User, { foreignKey: 'userId', as: 'owner' });
+    // }
   }
 
   Restaurant.schema = Joi.object({
@@ -21,6 +21,13 @@ module.exports = (sequelize, DataTypes) => {
       .max(30)
       .regex(/^\w+(?:\s+\w+)*$/)
       .required(),
+
+    email: Joi.string()
+      .email()
+      .required(),
+
+    password: Joi.string()
+      .pattern(new RegExp('[a-z0-9-]+[0-9A-Za-z./+=,$-]+$')),
 
     tags: Joi.string()
       .regex(/(.+?)(?:,|$)/)
@@ -32,11 +39,11 @@ module.exports = (sequelize, DataTypes) => {
 
     starttime: Joi.string()
       .pattern(new RegExp('^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$'))
-      .required(),
+      .allow(null),
 
     endtime: Joi.string()
       .pattern(new RegExp('^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$'))
-      .required(),
+      .allow(null),
 
     location: Joi.object()
       .allow(null),
@@ -44,12 +51,13 @@ module.exports = (sequelize, DataTypes) => {
     description: Joi.string()
       .min(20)
       .max(100)
-      .required(),
+      .allow(null),
 
     rating: Joi.number()
       .integer()
       .min(1)
-      .max(10),
+      .max(10)
+      .allow(null),
 
     country: Joi.string()
       .valid('United States', 'India'),
@@ -59,12 +67,14 @@ module.exports = (sequelize, DataTypes) => {
       .pattern(/^[0-9]+$/)
       .required(),
 
-    userId: Joi.number(),
+    // userId: Joi.number(),
 
   });
 
   Restaurant.init({
     name: DataTypes.STRING,
+    email: DataTypes.STRING,
+    password: DataTypes.STRING,
     tags: DataTypes.STRING,
     address: DataTypes.STRING,
     starttime: DataTypes.STRING,

@@ -1,17 +1,15 @@
-import produce from 'immer';
 import actionTypes from '../actionTypes';
 
-const loginReducer = (state = {}, action) => {
-  console.log(action);
+const userReducer = (state = {}, action) => {
+  // console.log(action);
   switch (action.type) {
     case actionTypes.LOGIN_SUCCESS:
-      return produce(state, (_draftState) => (
-        // eslint-disable-next-line no-param-reassign
-        action.user
-      ));
+      return action.user;
+    case actionTypes.LOGOUT:
+      return {};
     default:
       return state;
   }
 };
 
-export default loginReducer;
+export default userReducer;
