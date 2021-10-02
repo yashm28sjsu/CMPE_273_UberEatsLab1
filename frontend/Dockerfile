@@ -4,7 +4,7 @@ WORKDIR /app
 COPY ["package.json", "package-lock.json*", "./"]
 RUN npm install --production
 COPY . .
-CMD [ "npm", "run build" ]
+RUN npm run build
 
 # production environment
 FROM nginx:stable-alpine
