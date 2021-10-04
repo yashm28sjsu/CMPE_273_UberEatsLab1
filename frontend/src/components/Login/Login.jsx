@@ -93,7 +93,7 @@ const Login = () => {
         <Form.Group as={Row} className="mb-3">
           <Col sm="10">
             <span className="error stay-left">{error}</span>
-            <Button variant="primary" type="submit">Sign In</Button>
+            <Button variant="primary" type="submit" className="submit">Sign In</Button>
           </Col>
         </Form.Group>
         <Form.Group as={Row} className="mb-3">

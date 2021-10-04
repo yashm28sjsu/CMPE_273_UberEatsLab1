@@ -4,7 +4,11 @@ import {
   Navbar,
   Container,
   Nav as Navigation,
+  Form,
+  FormControl,
 } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import userActions from '../../actions/user';
 import './Nav.css';
 
@@ -25,6 +29,15 @@ const Nav = () => {
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
+          <Form className="d-flex">
+            <FormControl
+              type="search"
+              placeholder="What are you craving?"
+              className="mr-2 search"
+              aria-label="Search"
+            />
+          </Form>
+          <FontAwesomeIcon icon={faShoppingCart} className="navbar-margin" />
           <Navigation className="me-auto">
             <Navigation.Link onClick={(e) => logout(e, dispatch)}>Sign Out</Navigation.Link>
           </Navigation>

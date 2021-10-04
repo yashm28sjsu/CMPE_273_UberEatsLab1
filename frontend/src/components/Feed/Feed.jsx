@@ -1,23 +1,27 @@
 import React from 'react';
-import { Redirect } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Redirect,
+  Switch,
+  Route,
+} from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import FeedContainer from '../FeedContainer/FeedContainer';
 import './Feed.css';
 
 const feed = () => {
   const user = useSelector((state) => state.user);
   let redirect;
-  let greeting = '';
   if (user.email == null) {
     redirect = (<Redirect to="/user/login" />);
-  } else {
-    greeting = user.type === 'USER' ? 'Order your favourite food.' : 'Configure your restaurant.';
   }
   return (
-    <div>
+    <Router>
       {redirect}
-      <h1>Welcome to Uber Eats!</h1>
-      <h2>{greeting}</h2>
-    </div>
+      <Switch>
+        <Route exact path="/feed" component={FeedContainer} />
+      </Switch>
+    </Router>
   );
 };
 

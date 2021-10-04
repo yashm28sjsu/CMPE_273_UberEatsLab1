@@ -69,7 +69,7 @@ const User = ({ onChangeListener, setUser, error }) => (
     <Form.Group as={Row} className="mb-3">
       <Col sm="10">
         <span className="error stay-left">{error}</span>
-        <Button variant="primary" type="submit">Sign Up</Button>
+        <Button variant="primary" type="submit" className="submit">Sign Up</Button>
       </Col>
     </Form.Group>
     <Form.Group as={Row} className="mb-3">
