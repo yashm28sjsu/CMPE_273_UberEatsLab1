@@ -38,6 +38,7 @@ const Nav = () => {
             />
           </Form>
           <FontAwesomeIcon icon={faShoppingCart} className="navbar-margin" />
+          <span>0</span>
           <Navigation className="me-auto">
             <Navigation.Link onClick={(e) => logout(e, dispatch)}>Sign Out</Navigation.Link>
           </Navigation>

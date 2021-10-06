@@ -21,5 +21,6 @@ module.exports = {
   ],
   rules: {
     'no-unused-vars': ['warn', { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }],
+    'react/prop-types': 0,
   },
 };

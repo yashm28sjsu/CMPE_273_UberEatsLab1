@@ -15,3 +15,12 @@
 .card-text {
   font-size: smaller !important;
 }
+
+.restaurant-card {
+  margin: 10px;
+}
+
+.category {
+  width: 50% !important;
+  align-self: center;
+}

@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import {
   Form, Row, Col, Button,
 } from 'react-bootstrap';
@@ -92,15 +91,5 @@ const User = ({ onChangeListener, setUser, error }) => (
     </Form.Group>
   </div>
 );
-
-User.propTypes = {
-  onChangeListener: PropTypes.func.isRequired,
-  setUser: PropTypes.func.isRequired,
-  error: PropTypes.string,
-};
-
-User.defaultProps = {
-  error: '',
-};
 
 export default User;
