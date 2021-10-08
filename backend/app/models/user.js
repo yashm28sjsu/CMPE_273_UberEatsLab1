@@ -8,9 +8,10 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    // static associate({ Restaurant }) {
-    //   this.hasMany(Restaurant, { foreignKey: 'userId', as: 'restaurants' });
-    // }
+    static associate({ Order, Address }) {
+      this.hasMany(Order, { as: 'orders' });
+      this.hasMany(Address, { as: 'addresses' });
+    }
   }
 
   User.schema = Joi.object({

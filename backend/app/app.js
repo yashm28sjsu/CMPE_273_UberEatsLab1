@@ -3,6 +3,9 @@ const cors = require('cors');
 const db = require('./models');
 const userRoutes = require('./routes/user');
 const restaurantRoutes = require('./routes/restaurant');
+const dishRoutes = require('./routes/dish');
+const addressRoutes = require('./routes/address');
+const favouritesRoutes = require('./routes/favourites');
 
 const app = express();
 // use cors to allow cross origin resource sharing
@@ -38,6 +41,9 @@ app.get('/', (_, res) => {
 
 app.use('/user', userRoutes);
 app.use('/restaurant', restaurantRoutes);
+app.use('/dish', dishRoutes);
+app.use('/address', addressRoutes);
+app.use('/favourites', favouritesRoutes);
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
