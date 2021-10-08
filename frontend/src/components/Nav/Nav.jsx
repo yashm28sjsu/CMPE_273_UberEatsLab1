@@ -1,5 +1,6 @@
-import React from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import {
   Navbar,
   Container,
@@ -8,9 +9,10 @@ import {
   FormControl,
 } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
+import { faShoppingCart, faUser } from '@fortawesome/free-solid-svg-icons';
 import userActions from '../../actions/user';
 import './Nav.css';
+import CartModal from './CartModal';
 
 const logout = (e, dispatch) => {
   window.localStorage.setItem('token', {});
@@ -19,8 +21,15 @@ const logout = (e, dispatch) => {
 
 const Nav = () => {
   const dispatch = useDispatch();
+  const dishes = useSelector((state) => state.dishes);
+  const [redirectProfile, setRedirectProfile] = useState(false);
+  const [show, setShow] = useState(false);
+
+  const redirect = redirectProfile ? <Redirect to="/user/profile" /> : '';
+
   return (
     <Navbar expand="lg">
+      {redirect}
       <Container>
         <Navbar.Brand href="#home" className="ubertitle">
           <span className="uberblack">Sober</span>
@@ -37,13 +46,15 @@ const Nav = () => {
               aria-label="Search"
             />
           </Form>
-          <FontAwesomeIcon icon={faShoppingCart} className="navbar-margin" />
-          <span>0</span>
+          <FontAwesomeIcon icon={faShoppingCart} className="navbar-margin" onClick={(_e) => setShow(true)} />
+          <span>{dishes.dishes.length}</span>
+          <FontAwesomeIcon icon={faUser} className="navbar-margin" onClick={(_e) => setRedirectProfile(true)} />
           <Navigation className="me-auto">
             <Navigation.Link onClick={(e) => logout(e, dispatch)}>Sign Out</Navigation.Link>
           </Navigation>
         </Navbar.Collapse>
       </Container>
+      <CartModal show={show} setShow={setShow} />
     </Navbar>
   );
 };

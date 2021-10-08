@@ -56,8 +56,10 @@ const Signup = () => {
   const [error, setError] = useState('');
   const dispatch = useDispatch();
 
-  const redirect = isLoggedIn ? (<Redirect to="/feed" />) : '';
-  const formData = window.location.href.includes('restaurant')
+  const isRestaurant = window.location.href.includes('restaurant');
+  const redirectTag = isRestaurant ? (<Redirect to="/restaurant/profile" />) : (<Redirect to="/feed" />);
+  const redirect = isLoggedIn ? redirectTag : '';
+  const formData = isRestaurant
     ? (
       <Restaurant onChangeListener={onChangeListener} setUser={setUser} error={error.toString()} />
     )

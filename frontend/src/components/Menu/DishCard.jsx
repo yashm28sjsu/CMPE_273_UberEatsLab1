@@ -1,7 +1,9 @@
 import React from 'react';
 import { Card } from 'react-bootstrap';
 
-const DishCard = ({ dish, setShow, setSelectedDish }) => {
+const DishCard = ({
+  dish, setShow, setSelectedDish,
+}) => {
   const selectDish = (e) => {
     e.preventDefault();
     setSelectedDish(dish);

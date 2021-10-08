@@ -13,6 +13,9 @@ const Menu = () => {
   const [show, setShow] = useState(false);
   const [selectedDish, setSelectedDish] = useState({});
   const selectedRestaurant = useSelector((state) => state.restaurant);
+  const existing = useSelector((state) => (
+    state.dishes.dishes.filter((dishState) => dishState.name === selectedDish.name)
+  ));
   const backgroundImage = {
     height: '30%',
     backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,.6)), url(${selectedRestaurant.url})`,
@@ -51,10 +54,16 @@ const Menu = () => {
       <div style={backgroundImage}>
         <h1 className="menu-title">{selectedRestaurant.title}</h1>
       </div>
-      <Container fluid className="dish-container">
+      <Container fluid className="dish-container" style={{ marginLeft: '30px' }}>
         {dishCards}
       </Container>
-      <DishModal dish={selectedDish} show={show} setShow={setShow} />
+      <DishModal
+        dish={selectedDish}
+        show={show}
+        setShow={setShow}
+        restaurant={selectedRestaurant}
+        defaultQty={existing.length > 0 ? existing[0].qty : 0}
+      />
     </div>
   );
 };

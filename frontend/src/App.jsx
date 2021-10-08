@@ -6,15 +6,24 @@ import Home from './components/Home/Home';
 import Login from './components/Login/Login';
 import Signup from './components/Signup/Signup';
 import Feed from './components/Feed/Feed';
+import Profile from './components/Profile/Profile';
 import './App.css';
 
 const App = () => {
   const user = useSelector((state) => state.user);
-  // console.log(user);
+  const linksProfile = [
+    '/user/profile',
+    '/restaurant/profile',
+    '/user/orders',
+    '/restaurant/orders',
+    '/user/addresses',
+  ];
+
   let nav;
   if (user.email != null) {
     nav = (<Nav />);
   }
+
   return (
     <Router>
       <div className="App">
@@ -24,6 +33,7 @@ const App = () => {
           <Route path="/feed" component={Feed} />
           <Route path={['/user/login', '/restaurant/login']} component={Login} />
           <Route path={['/user/signup', '/restaurant/signup']} component={Signup} />
+          <Route path={linksProfile} component={Profile} />
         </Switch>
       </div>
     </Router>

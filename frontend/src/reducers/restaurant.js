@@ -1,6 +1,6 @@
 import actionTypes from '../actionTypes';
 
-const userReducer = (state = {}, action) => {
+const restaurantReducer = (state = {}, action) => {
   // console.log(action);
   switch (action.type) {
     case actionTypes.RESTAURANT_SELECTED:
@@ -10,4 +10,4 @@ const userReducer = (state = {}, action) => {
   }
 };
 
-export default userReducer;
+export default restaurantReducer;

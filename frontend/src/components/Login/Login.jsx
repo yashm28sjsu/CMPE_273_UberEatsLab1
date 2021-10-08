@@ -54,11 +54,12 @@ const Login = () => {
   const [error, setError] = useState('');
   const dispatch = useDispatch();
 
-  const redirect = isLoggedIn ? (<Redirect to="/feed" />) : '';
-
   const isRestaurant = window.location.href.includes('restaurant');
   const loginText = isRestaurant ? 'Looking to order your favourite food?' : 'Looking for your restaurant login?';
   const loginURL = isRestaurant ? '/user/login' : '/restaurant/login';
+
+  const redirectTag = isRestaurant ? (<Redirect to="/restaurant/profile" />) : (<Redirect to="/feed" />);
+  const redirect = isLoggedIn ? redirectTag : '';
 
   return (
     <div className="form-container">
