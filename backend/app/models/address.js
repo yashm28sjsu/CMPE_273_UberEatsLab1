@@ -20,6 +20,8 @@ module.exports = (sequelize, DataTypes) => {
 
     id: Joi.number().allow(null),
 
+    name: Joi.string(),
+
     address: Joi.string(),
 
     UserId: Joi.number().integer(),
@@ -27,6 +29,7 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   Address.init({
+    name: DataTypes.STRING,
     address: DataTypes.STRING,
   }, {
     sequelize,

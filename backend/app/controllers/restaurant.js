@@ -83,7 +83,16 @@ const login = async (req, res) => {
     res.status(200).json({ error: err });
   }
 };
+
+const getAll = async (_req, res) => {
+  const restaurants = await db.Restaurant.findAll({
+    attributes: ['id', 'name', 'picture', 'description', 'tags'],
+  });
+  res.json({ restaurants });
+};
+
 module.exports = {
   create,
   login,
+  getAll,
 };

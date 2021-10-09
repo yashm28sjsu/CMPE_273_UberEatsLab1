@@ -3,6 +3,7 @@ import produce from 'immer';
 import actionTypes from '../actionTypes';
 
 const dishesReducer = (state = { restaurant: '', dishes: [] }, action) => {
+  console.log(action.restaurant);
   switch (action.type) {
     case actionTypes.DISH_ADDED:
       return produce(state, (draftState) => {

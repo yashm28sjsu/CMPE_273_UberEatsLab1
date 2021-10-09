@@ -26,7 +26,7 @@ const CartModal = ({ show, setShow }) => {
   return (
     <Modal show={show} onHide={handleClose}>
       <Modal.Header closeButton>
-        <Modal.Title>{dishes.restaurant.title}</Modal.Title>
+        <Modal.Title>{dishes.restaurant.name}</Modal.Title>
       </Modal.Header>
       <Modal.Body />
       <Container style={{ marginLeft: '30px' }}>

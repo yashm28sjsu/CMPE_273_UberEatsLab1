@@ -14,6 +14,7 @@ const DishModal = ({
 
   const addToCart = () => {
     if (qty > 0) {
+      console.log(restaurant);
       dispatch(dishesActions.getDishAddedAction(restaurant, dish, qty));
       setShow(false);
     }

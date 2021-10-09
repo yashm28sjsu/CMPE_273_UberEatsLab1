@@ -5,8 +5,9 @@ import Nav from './components/Nav/Nav';
 import Home from './components/Home/Home';
 import Login from './components/Login/Login';
 import Signup from './components/Signup/Signup';
-import Feed from './components/Feed/Feed';
 import Profile from './components/Profile/Profile';
+import FeedContainer from './components/FeedContainer/FeedContainer';
+import Menu from './components/Menu/Menu';
 import './App.css';
 
 const App = () => {
@@ -30,9 +31,10 @@ const App = () => {
         {nav}
         <Switch>
           <Route exact path="/" component={Home} />
-          <Route path="/feed" component={Feed} />
           <Route path={['/user/login', '/restaurant/login']} component={Login} />
           <Route path={['/user/signup', '/restaurant/signup']} component={Signup} />
+          <Route path="/feed" component={FeedContainer} />
+          <Route path="/menu" component={Menu} />
           <Route path={linksProfile} component={Profile} />
         </Switch>
       </div>

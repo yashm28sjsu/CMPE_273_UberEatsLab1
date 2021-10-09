@@ -69,6 +69,8 @@ module.exports = (sequelize, DataTypes) => {
       .pattern(/^[0-9]+$/)
       .required(),
 
+    picture: Joi.string().uri().allow(null),
+
     // userId: Joi.number(),
 
   });
@@ -86,6 +88,7 @@ module.exports = (sequelize, DataTypes) => {
     rating: DataTypes.INTEGER,
     contact: DataTypes.STRING,
     country: DataTypes.STRING,
+    picture: DataTypes.STRING,
   }, {
     sequelize,
     modelName: 'Restaurant',

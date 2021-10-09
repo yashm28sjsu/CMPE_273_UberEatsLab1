@@ -18,7 +18,7 @@ const Menu = () => {
   ));
   const backgroundImage = {
     height: '30%',
-    backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,.6)), url(${selectedRestaurant.url})`,
+    backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,.6)), url(${selectedRestaurant.picture})`,
   };
 
   const dishesGroups = [];
@@ -52,7 +52,8 @@ const Menu = () => {
   return (
     <div className="Menu">
       <div style={backgroundImage}>
-        <h1 className="menu-title">{selectedRestaurant.title}</h1>
+        <h1 className="menu-title">{selectedRestaurant.name}</h1>
+        <p className="menu-subtitle">{selectedRestaurant.description}</p>
       </div>
       <Container fluid className="dish-container" style={{ marginLeft: '30px' }}>
         {dishCards}
