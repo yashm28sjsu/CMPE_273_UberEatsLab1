@@ -54,11 +54,12 @@ const Login = () => {
   const [error, setError] = useState('');
   const dispatch = useDispatch();
 
-  const redirect = isLoggedIn ? (<Redirect to="/feed" />) : '';
-
   const isRestaurant = window.location.href.includes('restaurant');
   const loginText = isRestaurant ? 'Looking to order your favourite food?' : 'Looking for your restaurant login?';
   const loginURL = isRestaurant ? '/user/login' : '/restaurant/login';
+
+  const redirectTag = isRestaurant ? (<Redirect to="/restaurant/profile" />) : (<Redirect to="/feed" />);
+  const redirect = isLoggedIn ? redirectTag : '';
 
   return (
     <div className="form-container">
@@ -93,7 +94,7 @@ const Login = () => {
         <Form.Group as={Row} className="mb-3">
           <Col sm="10">
             <span className="error stay-left">{error}</span>
-            <Button variant="primary" type="submit">Sign In</Button>
+            <Button variant="primary" type="submit" className="submit">Sign In</Button>
           </Col>
         </Form.Group>
         <Form.Group as={Row} className="mb-3">

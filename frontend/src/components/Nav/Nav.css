@@ -1,3 +1,19 @@
-Navbar {
+.navbar {
   background-color: white;
+}
+
+.container {
+  width: 100%;
+}
+
+form {
+  width: 100%;
+}
+
+.search {
+  background: #f6f6f6 !important;
+}
+
+.navbar-margin {
+  margin: 10px;
 }

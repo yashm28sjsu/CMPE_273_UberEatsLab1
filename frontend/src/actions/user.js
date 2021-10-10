@@ -4,7 +4,7 @@ const getLoginAction = (user) => (
   { type: actionTypes.LOGIN_SUCCESS, user }
 );
 
-const getLogoutAction = (user) => (
+const getLogoutAction = () => (
   { type: actionTypes.LOGOUT }
 );
 

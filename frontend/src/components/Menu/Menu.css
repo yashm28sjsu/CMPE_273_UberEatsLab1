@@ -1,0 +1,32 @@
+.menu-title {
+  color: white;
+  font-weight: 700;
+  position: absolute;
+  top: 250px;
+  margin-left: 10px;
+}
+
+.menu-subtitle {
+  color: white;
+  font-weight: 700;
+  position: absolute;
+  top: 300px;
+  margin-left: 20px;
+}
+
+.Menu {
+  width: 100%;
+  height: 100%;
+}
+
+.dish-container {
+  margin: 10px;
+}
+
+.modal-form {
+  margin: 15px;
+}
+
+.modal-Qty {
+  width: 50% !important;
+}

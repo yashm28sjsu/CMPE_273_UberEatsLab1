@@ -1,0 +1,92 @@
+[
+  {
+    "title": "Jack in the Box (1558 W San Carlos St)",
+    "url": "https://cn-geo1.uber.com/image-proc/resize/eats/format=webp/width=550/height=440/quality=70/srcb64=aHR0cHM6Ly9kMXJhbHNvZ25qbmczNy5jbG91ZGZyb250Lm5ldC8yNDU2OWQzNS0zYTEyLTRmMGQtODQ0Mi03Y2E4MDdlM2MzZjQuanBlZw==",
+    "deliveryFee": "$0 Delivery Fee",
+    "deliveryTime": "25–35 min"
+  },
+  {
+    "title": "Pizza Guys (1998 Homestead Rd #101)",
+    "url": "https://cn-geo1.uber.com/image-proc/resize/eats/format=webp/width=550/height=440/quality=70/srcb64=aHR0cHM6Ly9kMXJhbHNvZ25qbmczNy5jbG91ZGZyb250Lm5ldC9iMDBlMzZiMy0xMGE2LTQyNzQtOWI3ZC0yM2EyMDlkNmM5MzguanBlZw==",
+    "deliveryFee": "$0 Delivery Fee",
+    "deliveryTime": "15–25 min"
+  },
+  {
+    "title": "7-Eleven (404 South Sixth St)",
+    "url": "https://cn-geo1.uber.com/image-proc/resize/eats/format=webp/width=550/height=440/quality=70/srcb64=aHR0cHM6Ly9kMXJhbHNvZ25qbmczNy5jbG91ZGZyb250Lm5ldC9lMDdiN2JhNy1mMDZhLTRiNzAtODhhMC00ZmM5MmViYTRiNjIuanBlZw==",
+    "deliveryFee": "$0.49 Delivery Fee",
+    "deliveryTime": "30–40 min"
+  },
+  {
+    "title": "La Victoria Taqueria - San Carlos St.",
+    "url": "https://cn-geo1.uber.com/image-proc/resize/eats/format=webp/width=550/height=440/quality=70/srcb64=aHR0cHM6Ly9kMXJhbHNvZ25qbmczNy5jbG91ZGZyb250Lm5ldC8yYzY1YjllMi1mMzc1LTQ2ODktYWQ1OS04NDhmZTBmZjRjZjAuanBlZw==",
+    "deliveryFee": "$0 Delivery Fee",
+    "deliveryTime": "20–30 min"
+  },
+  {
+    "title": "Papa John's Pizza- San Jose",
+    "url": "https://cn-geo1.uber.com/image-proc/resize/eats/format=webp/width=550/height=440/quality=70/srcb64=aHR0cHM6Ly9kMXJhbHNvZ25qbmczNy5jbG91ZGZyb250Lm5ldC8wNzQyYzVmMy1mYmYyLTQ1ZDAtYmYxYy05ZDBjYThmMzg2ODcuanBlZw==",
+    "deliveryFee": "$0.49 Delivery Fee",
+    "deliveryTime": "30–40 min"
+  },
+  {
+    "title": "Denny's (1390 South First St)",
+    "url": "https://cn-geo1.uber.com/image-proc/resize/eats/format=webp/width=550/height=440/quality=70/srcb64=aHR0cHM6Ly9kMXJhbHNvZ25qbmczNy5jbG91ZGZyb250Lm5ldC9iMDAxNzczOC1hYzQyLTQ0N2YtODdlNS00MWUxZDNhZjc5YjIuanBlZw==",
+    "deliveryFee": "$0 Delivery Fee",
+    "deliveryTime": "25–35 min"
+  },
+  {
+    "title": "Cali Cruisin' Cheesesteaks",
+    "url": "https://cn-geo1.uber.com/image-proc/resize/eats/format=webp/width=550/height=440/quality=70/srcb64=aHR0cHM6Ly9kMXJhbHNvZ25qbmczNy5jbG91ZGZyb250Lm5ldC81YWZhNThhYy01YjA1LTQ2YTQtYjQwOC1hM2RmOWMxMWIxZGIuanBlZw==",
+    "deliveryFee": "$0 Delivery Fee",
+    "deliveryTime": "35–45 min"
+  },
+  {
+    "title": "Yum Yum Donuts (1090 Meridian Ave.)",
+    "url": "https://cn-geo1.uber.com/image-proc/resize/eats/format=webp/width=550/height=440/quality=70/srcb64=aHR0cHM6Ly9kMXJhbHNvZ25qbmczNy5jbG91ZGZyb250Lm5ldC84YjEzYTdjNS0zMThkLTQ3MzQtYjQ5NS1kOTljYThlODIzOWUuanBlZw==",
+    "deliveryFee": "$1.99 Delivery Fee",
+    "deliveryTime": "30–40 min"
+  },
+  {
+    "title": "Papa John's Pizza- San Jose",
+    "url": "https://cn-geo1.uber.com/image-proc/resize/eats/format=webp/width=550/height=440/quality=70/srcb64=aHR0cHM6Ly9kMXJhbHNvZ25qbmczNy5jbG91ZGZyb250Lm5ldC8wNzQyYzVmMy1mYmYyLTQ1ZDAtYmYxYy05ZDBjYThmMzg2ODcuanBlZw==",
+    "deliveryFee": "$0.49 Delivery Fee",
+    "deliveryTime": "25–35 min"
+  },
+  {
+    "title": "7-Eleven (404 South Sixth St)",
+    "url": "https://cn-geo1.uber.com/image-proc/resize/eats/format=webp/width=550/height=440/quality=70/srcb64=aHR0cHM6Ly9kMXJhbHNvZ25qbmczNy5jbG91ZGZyb250Lm5ldC9lMDdiN2JhNy1mMDZhLTRiNzAtODhhMC00ZmM5MmViYTRiNjIuanBlZw==",
+    "deliveryFee": "$0.49 Delivery Fee",
+    "deliveryTime": "20–30 min"
+  },
+  {
+    "title": "Jack in the Box (1558 W San Carlos St)",
+    "url": "https://cn-geo1.uber.com/image-proc/resize/eats/format=webp/width=550/height=440/quality=70/srcb64=aHR0cHM6Ly9kMXJhbHNvZ25qbmczNy5jbG91ZGZyb250Lm5ldC8yNDU2OWQzNS0zYTEyLTRmMGQtODQ0Mi03Y2E4MDdlM2MzZjQuanBlZw==",
+    "deliveryFee": "$0 Delivery Fee",
+    "deliveryTime": "15–25 min"
+  },
+  {
+    "title": "Denny's (1390 South First St)",
+    "url": "https://cn-geo1.uber.com/image-proc/resize/eats/format=webp/width=550/height=440/quality=70/srcb64=aHR0cHM6Ly9kMXJhbHNvZ25qbmczNy5jbG91ZGZyb250Lm5ldC9iMDAxNzczOC1hYzQyLTQ0N2YtODdlNS00MWUxZDNhZjc5YjIuanBlZw==",
+    "deliveryFee": "$0 Delivery Fee",
+    "deliveryTime": "35–45 min"
+  },
+  {
+    "title": "Doner Silicon Valley",
+    "url": "https://cn-geo1.uber.com/image-proc/resize/eats/format=webp/width=550/height=440/quality=70/srcb64=aHR0cHM6Ly9kMXJhbHNvZ25qbmczNy5jbG91ZGZyb250Lm5ldC9mM2RiYzU1Ny02ZTExLTQ5NzEtOWU4My0wYWE5YjdmZWQ3OGIud2VicA==",
+    "deliveryFee": "$0 Delivery Fee",
+    "deliveryTime": "20–30 min"
+  },
+  {
+    "title": "Jack in the Box (1558 W San Carlos St)",
+    "url": "https://cn-geo1.uber.com/image-proc/resize/eats/format=webp/width=550/height=440/quality=70/srcb64=aHR0cHM6Ly9kMXJhbHNvZ25qbmczNy5jbG91ZGZyb250Lm5ldC8yNDU2OWQzNS0zYTEyLTRmMGQtODQ0Mi03Y2E4MDdlM2MzZjQuanBlZw==",
+    "deliveryFee": "$0 Delivery Fee",
+    "deliveryTime": "15–25 min"
+  },
+  {
+    "title": "7-Eleven (404 South Sixth St)",
+    "url": "https://cn-geo1.uber.com/image-proc/resize/eats/format=webp/width=550/height=440/quality=70/srcb64=aHR0cHM6Ly9kMXJhbHNvZ25qbmczNy5jbG91ZGZyb250Lm5ldC9lMDdiN2JhNy1mMDZhLTRiNzAtODhhMC00ZmM5MmViYTRiNjIuanBlZw==",
+    "deliveryFee": "$0.49 Delivery Fee",
+    "deliveryTime": "20–30 min"
+  }
+]

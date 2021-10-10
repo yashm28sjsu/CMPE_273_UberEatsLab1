@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import {
   Form, Row, Col, Button,
 } from 'react-bootstrap';
@@ -69,7 +68,7 @@ const User = ({ onChangeListener, setUser, error }) => (
     <Form.Group as={Row} className="mb-3">
       <Col sm="10">
         <span className="error stay-left">{error}</span>
-        <Button variant="primary" type="submit">Sign Up</Button>
+        <Button variant="primary" type="submit" className="submit">Sign Up</Button>
       </Col>
     </Form.Group>
     <Form.Group as={Row} className="mb-3">
@@ -92,15 +91,5 @@ const User = ({ onChangeListener, setUser, error }) => (
     </Form.Group>
   </div>
 );
-
-User.propTypes = {
-  onChangeListener: PropTypes.func.isRequired,
-  setUser: PropTypes.func.isRequired,
-  error: PropTypes.string,
-};
-
-User.defaultProps = {
-  error: '',
-};
 
 export default User;
