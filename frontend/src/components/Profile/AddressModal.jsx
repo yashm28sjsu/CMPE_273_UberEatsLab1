@@ -40,7 +40,7 @@ const AddressModal = ({ show, setShow, getAddresses }) => {
         <Modal.Title>New Address</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Form className="modal-form">
+        <Form className="modal-form" style={{ margin: '10px' }}>
           <Form.Group as={Row} className="mb-3">
             <Form.Label column sm="2">
               Name

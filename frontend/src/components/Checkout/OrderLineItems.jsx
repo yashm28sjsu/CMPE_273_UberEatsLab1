@@ -1,9 +1,11 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import {
+  Button,
   Col, Container, Form, Row,
 } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
+import AddressModal from '../Profile/AddressModal';
 import actions from '../../actions/order';
 
 const config = require('../../config/config.json');
@@ -16,6 +18,7 @@ const OrderLineItems = () => {
   const user = useSelector((state) => state.user);
   const [addresses, setAddresses] = useState([]);
   const [selectedAddress, setSelectedAddress] = useState({ name: '', address: '' });
+  const [show, setShow] = useState(false);
   const dispatch = useDispatch();
 
   const rows = dishes.dishes.map((dish) => (
@@ -61,11 +64,21 @@ const OrderLineItems = () => {
     dispatch(actions.getOrderDeliveryModeSelectedAction(''));
   }, []);
 
+  const buttonStyle = {
+    backgroundColor: '#4F9300',
+    border: 'none',
+    float: 'left',
+    margin: '10px',
+  };
+
   return (
     <div className="checkout-left">
       <hr className="separator" />
       <h4 className="stay-left">Address</h4>
       <br />
+      <Button variant="primary" style={buttonStyle} onClick={(_e) => setShow(true)}>
+        Add New Address
+      </Button>
       <Form.Control as="select" onChange={(e) => onAddressChange(e)}>
         {addresses}
       </Form.Control>
@@ -98,6 +111,11 @@ const OrderLineItems = () => {
         {rows}
       </Container>
       <hr className="separator" />
+      <AddressModal
+        show={show}
+        setShow={setShow}
+        getAddresses={getAddresses}
+      />
     </div>
   );
 };

@@ -49,7 +49,40 @@ const remove = async (req, res) => {
   }
 };
 
+const getFavourites = async (req, res) => {
+  const { id } = req.body;
+  try {
+    const dbfavourites = await db.Favourites.findAll({
+      where: {
+        UserId: parseInt(id, 10),
+      },
+    });
+    res.json({ favourites: dbfavourites });
+  } catch (error) {
+    res.json({ error });
+  }
+};
+
+const getFavouritesWithRestaurant = async (req, res) => {
+  const { id } = req.body;
+  try {
+    const dbfavourites = await db.Favourites.findAll({
+      where: {
+        UserId: parseInt(id, 10),
+      },
+      include: [
+        { model: db.Restaurant },
+      ],
+    });
+    res.json({ favourites: dbfavourites });
+  } catch (error) {
+    res.json({ error });
+  }
+};
+
 module.exports = {
   create,
   remove,
+  getFavourites,
+  getFavouritesWithRestaurant,
 };

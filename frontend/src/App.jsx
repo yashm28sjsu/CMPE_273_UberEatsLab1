@@ -19,6 +19,7 @@ const App = () => {
     '/user/orders',
     '/restaurant/orders',
     '/user/addresses',
+    '/user/favourites',
   ];
 
   let nav;

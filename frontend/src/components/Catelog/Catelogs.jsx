@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import ItemsCarousel from 'react-items-carousel';
 import { Container, Row, Col } from 'react-bootstrap';
 import { Redirect } from 'react-router';
@@ -10,7 +10,7 @@ import CategoryCard from './CategoryCard';
 
 const config = require('../../config/config.json');
 
-const env = process.env.NODE_ENV || 'development';
+const env = process.env.node_env || 'development';
 const { url } = config[env];
 
 const categories = require('./Categories.json');
@@ -19,10 +19,12 @@ const GROUP_SIZE = 4;
 const CATEGORY_GROUP_SIZE = 5;
 
 const Catelogs = () => {
+  const user = useSelector((state) => state.user);
   const [activeItemIndex, setActiveItemIndex] = useState(0);
   const [restaurantSelected, setRestaurantSelected] = useState(false);
   const [popularCards, setPopularCards] = useState([]);
   const [allCards, setAllCards] = useState([]);
+  const [favourites, setFavourites] = useState([]);
   const dispatch = useDispatch();
 
   const getPopularCards = (restaurants) => restaurants.map((restaurant) => (
@@ -30,6 +32,7 @@ const Catelogs = () => {
       restaurant={restaurant}
       dispatch={dispatch}
       setRestaurantSelected={setRestaurantSelected}
+      existingFavourite={favourites.filter((fav) => fav.RestaurantId === restaurant.id)}
       key={restaurant.id}
     />
   ));
@@ -51,6 +54,7 @@ const Catelogs = () => {
             restaurant={restaurant}
             dispatch={dispatch}
             setRestaurantSelected={setRestaurantSelected}
+            existingFavourite={favourites.filter((fav) => fav.RestaurantId === restaurant.id)}
             key={restaurant.id}
           />
         </Col>
@@ -79,8 +83,25 @@ const Catelogs = () => {
     }
   };
 
+  const getFavourites = async () => {
+    const path = '/favourites/getFavourites/';
+    try {
+      const headers = {
+        Authorization: `Bearer ${window.localStorage.getItem('token')}`,
+      };
+      const response = await axios.post(url + path, { id: user.id }, { headers });
+      if (response.status === 200
+        && response.error == null) {
+        setFavourites(response.data.favourites);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   useEffect(() => {
     getRestaurants();
+    getFavourites();
   }, []);
 
   const chevronWidth = 40;
