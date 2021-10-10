@@ -25,6 +25,21 @@ const ReceiptModal = ({ show, setShow, order }) => {
         <Modal.Title>Receipt</Modal.Title>
       </Modal.Header>
       <Modal.Body>
+        <p>
+          Address:
+          {' '}
+          {order.Address.address}
+        </p>
+        <p>
+          Status:
+          {' '}
+          {order.status}
+        </p>
+        <p>
+          Type:
+          {' '}
+          {order.type}
+        </p>
         <Container>
           <Row>
             <Col>
