@@ -20,7 +20,7 @@ const DishCard = ({
       <Card.Body>
         <Card.Title className="card-title">{`$${Math.round(dish.price * 100) / 100}`}</Card.Title>
         <Card.Text className="card-text">
-          {dish.desc.length <= 50 ? dish.desc : `${dish.desc.substring(0, 49)}...`}
+          {dish.description.length <= 50 ? dish.description : `${dish.description.substring(0, 49)}...`}
         </Card.Text>
       </Card.Body>
     </Card>

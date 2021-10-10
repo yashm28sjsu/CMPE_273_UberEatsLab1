@@ -30,7 +30,12 @@ const DishModal = ({
       <Modal.Header closeButton>
         <Modal.Title>{dish.name}</Modal.Title>
       </Modal.Header>
-      <Modal.Body>{dish.desc}</Modal.Body>
+      <Modal.Body>
+        {dish.description}
+        <br />
+        {'Ingredients: '}
+        {dish.ingredients}
+      </Modal.Body>
       <Form className="modal-form">
         <Form.Group as={Row} className="mb-3" controlId="formPlaintextEmail">
           <Form.Label column sm="2">

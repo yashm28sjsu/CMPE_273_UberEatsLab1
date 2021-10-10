@@ -12,7 +12,7 @@ const config = require('../../config/config.json');
 
 const env = process.env.NODE_ENV || 'development';
 const { url } = config[env];
-// const restaurants = require('./Catelog.json');
+
 const categories = require('./Categories.json');
 
 const GROUP_SIZE = 4;
@@ -80,7 +80,6 @@ const Catelogs = () => {
   };
 
   useEffect(() => {
-    console.log('useEffects');
     getRestaurants();
   }, []);
 

@@ -6,5 +6,6 @@ const router = express.Router();
 
 router.post('/create', authenticateToken, controllers.create);
 router.post('/updateStatus', authenticateToken, controllers.updateStatus);
+router.post('/getOrders', authenticateToken, controllers.getOrders);
 
 module.exports = router;

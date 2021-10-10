@@ -9,6 +9,7 @@ import Profile from './components/Profile/Profile';
 import FeedContainer from './components/FeedContainer/FeedContainer';
 import Menu from './components/Menu/Menu';
 import './App.css';
+import Checkout from './components/Checkout/Checkout';
 
 const App = () => {
   const user = useSelector((state) => state.user);
@@ -35,6 +36,7 @@ const App = () => {
           <Route path={['/user/signup', '/restaurant/signup']} component={Signup} />
           <Route path="/feed" component={FeedContainer} />
           <Route path="/menu" component={Menu} />
+          <Route path="/checkout" component={Checkout} />
           <Route path={linksProfile} component={Profile} />
         </Switch>
       </div>

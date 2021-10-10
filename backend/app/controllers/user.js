@@ -29,6 +29,7 @@ const authenticateToken = async (req, res, next) => {
         res.sendStatus(403);
       }
     } catch (e) {
+      console.log(e);
       res.sendStatus(403);
     }
   } else {

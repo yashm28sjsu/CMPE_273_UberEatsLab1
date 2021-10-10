@@ -51,7 +51,22 @@ const update = async (req, res) => {
   }
 };
 
+const getAddresses = async (req, res) => {
+  const { id } = req.body;
+  try {
+    const dbaddresses = await db.Address.findAll({
+      where: {
+        UserId: parseInt(id, 10),
+      },
+    });
+    res.json({ addresses: dbaddresses });
+  } catch (error) {
+    res.json({ error });
+  }
+};
+
 module.exports = {
   create,
   update,
+  getAddresses,
 };

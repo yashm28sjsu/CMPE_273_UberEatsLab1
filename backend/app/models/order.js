@@ -30,7 +30,7 @@ module.exports = (sequelize, DataTypes) => {
 
     cost: Joi.number(),
 
-    deliveryCost: Joi.number(),
+    deliverycost: Joi.number(),
 
     tax: Joi.number(),
 

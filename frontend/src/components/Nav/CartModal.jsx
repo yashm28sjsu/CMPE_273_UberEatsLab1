@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import {
   Modal, Button, Container, Col, Row,
 } from 'react-bootstrap';
 
 const CartModal = ({ show, setShow }) => {
   const dishes = useSelector((state) => state.dishes);
+  const [checkedOut, setCheckedOut] = useState(false);
+  const redirect = checkedOut ? <Redirect to="/checkout" /> : '';
 
   const rows = dishes.dishes.map((dish) => (
     <Row>
@@ -23,8 +26,14 @@ const CartModal = ({ show, setShow }) => {
   });
 
   const handleClose = () => setShow(false);
+  const checkOut = () => {
+    setCheckedOut(true);
+    setShow(false);
+  };
+
   return (
     <Modal show={show} onHide={handleClose}>
+      {redirect}
       <Modal.Header closeButton>
         <Modal.Title>{dishes.restaurant.name}</Modal.Title>
       </Modal.Header>
@@ -34,7 +43,7 @@ const CartModal = ({ show, setShow }) => {
       </Container>
       <Modal.Body />
       <Modal.Footer>
-        <Button variant="primary" className="submit">
+        <Button variant="primary" className="submit" onClick={(_e) => checkOut()}>
           Checkout -
           {' '}
           {`$${Math.round(totalPrice * 100) / 100}`}

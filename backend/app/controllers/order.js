@@ -3,7 +3,7 @@ const db = require('../models');
 const create = async (req, res) => {
   const { order } = req.body;
   const { orderlineitems, ...orderdata } = order;
-
+  console.log(req.body);
   const validation = db.Order.schema.validate(orderdata);
   if (!validation.error) {
     const t = await db.sequelize.transaction();
@@ -34,13 +34,10 @@ const create = async (req, res) => {
 
         await t.commit();
       } else {
-        await t.rollback();
-        res.json({ error: validation.error.details[0].message });
+        res.json({ error: oliValidation.error.details[0].message });
       }
-
-      // res.json({ order: { ...remaining } });
     } catch (err) {
-      // await t.rollback();
+      await t.rollback();
       res.status(200).json({ error: err });
     }
   } else {
@@ -78,7 +75,33 @@ const updateStatus = async (req, res) => {
   }
 };
 
+const getOrders = async (req, res) => {
+  const { id } = req.body;
+  try {
+    const dborders = await db.Order.findAll({
+      where: {
+        UserId: parseInt(id, 10),
+      },
+      include: [
+        { model: db.Address, attributes: ['id', 'address'] },
+        { model: db.Restaurant, attributes: ['id', 'name'] },
+        {
+          model: db.OrderLineItem,
+          as: 'orderlineitems',
+          include: [
+            { model: db.Dish },
+          ],
+        },
+      ],
+    });
+    res.json({ orders: dborders });
+  } catch (error) {
+    res.json({ error });
+  }
+};
+
 module.exports = {
   create,
   updateStatus,
+  getOrders,
 };

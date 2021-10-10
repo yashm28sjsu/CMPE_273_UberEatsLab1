@@ -51,7 +51,22 @@ const update = async (req, res) => {
   }
 };
 
+const getDishes = async (req, res) => {
+  const { restaurantid } = req.params;
+  try {
+    const dbdishes = await db.Dish.findAll({
+      where: {
+        RestaurantId: parseInt(restaurantid, 10),
+      },
+    });
+    res.json({ dishes: dbdishes });
+  } catch (error) {
+    res.json({ error });
+  }
+};
+
 module.exports = {
   create,
   update,
+  getDishes,
 };
