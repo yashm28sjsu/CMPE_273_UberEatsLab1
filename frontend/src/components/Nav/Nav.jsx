@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import {
   Navbar,
   Container,
@@ -31,10 +31,12 @@ const Nav = () => {
     <Navbar expand="lg">
       {redirect}
       <Container>
-        <Navbar.Brand href="#home" className="ubertitle">
-          <span className="uberblack">Sober</span>
-          {' '}
-          <span className="ubergreen">Eats</span>
+        <Navbar.Brand className="ubertitle">
+          <Link to="/feed" style={{ textDecoration: 'none' }}>
+            <span className="uberblack">Sober</span>
+            {' '}
+            <span className="ubergreen">Eats</span>
+          </Link>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">

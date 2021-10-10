@@ -18,6 +18,7 @@ const App = () => {
     '/restaurant/profile',
     '/user/orders',
     '/restaurant/orders',
+    '/restaurant/dishes',
     '/user/addresses',
     '/user/favourites',
   ];

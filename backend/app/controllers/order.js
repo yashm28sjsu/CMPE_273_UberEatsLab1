@@ -100,8 +100,35 @@ const getOrders = async (req, res) => {
   }
 };
 
+const getRestaurantOrders = async (req, res) => {
+  const { id } = req.body;
+  try {
+    const dborders = await db.Order.findAll({
+      where: {
+        RestaurantId: parseInt(id, 10),
+      },
+      include: [
+        { model: db.Address, attributes: ['id', 'address'] },
+        { model: db.User, attributes: ['id', 'firstname', 'lastname'] },
+        {
+          model: db.OrderLineItem,
+          as: 'orderlineitems',
+          include: [
+            { model: db.Dish },
+          ],
+        },
+      ],
+    });
+    res.json({ orders: dborders });
+  } catch (error) {
+    console.log(error);
+    res.json({ error });
+  }
+};
+
 module.exports = {
   create,
   updateStatus,
   getOrders,
+  getRestaurantOrders,
 };

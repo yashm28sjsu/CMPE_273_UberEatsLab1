@@ -1,9 +1,20 @@
-import React from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import {
-  Col, Container, Modal, Row,
+  Button,
+  Col, Container, Form, Modal, Row,
 } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
+
+const config = require('../../config/config.json');
+
+const env = process.env.NODE_ENV || 'development';
+const { url } = config[env];
 
 const ReceiptModal = ({ show, setShow, order }) => {
+  const user = useSelector((state) => state.user);
+  const [status, setStatus] = useState(order.status);
+
   const dishes = order.orderlineitems.map((lineitem) => (
     <Row key="lineitem.id">
       <Col>
@@ -19,6 +30,26 @@ const ReceiptModal = ({ show, setShow, order }) => {
   ));
 
   const handleClose = () => setShow(false);
+  const updateStatus = async () => {
+    const path = '/order/updateStatus/';
+    try {
+      const headers = {
+        Authorization: `Bearer ${window.localStorage.getItem('token')}`,
+      };
+      const response = await axios.post(
+        url + path,
+        { id: user.id, order: { id: order.id, status } },
+        { headers },
+      );
+      if (response.status === 200
+        && response.error == null) {
+        handleClose();
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <Modal show={show} onHide={handleClose}>
       <Modal.Header closeButton>
@@ -33,7 +64,20 @@ const ReceiptModal = ({ show, setShow, order }) => {
         <p>
           Status:
           {' '}
-          {order.status}
+          {
+            window.location.href.includes('restaurant')
+              ? (
+                <Form.Control as="select" defaultValue={order.status} onChange={(e) => setStatus(e.target.value)}>
+                  <option value="PLACED">PLACED</option>
+                  <option value="ACCEPTED">ACCEPTED</option>
+                  <option value="COOKING">COOKING</option>
+                  <option value="PICKEDUP">PICKEDUP</option>
+                  <option value="DELIVERED">DELIVERED</option>
+                  <option value="CANCELLED">CANCELLED</option>
+                </Form.Control>
+              )
+              : order.status
+          }
         </p>
         <p>
           Type:
@@ -78,6 +122,20 @@ const ReceiptModal = ({ show, setShow, order }) => {
           </Row>
         </Container>
       </Modal.Body>
+      {
+        window.location.href.includes('restaurant')
+          ? (
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleClose}>
+                Close
+              </Button>
+              <Button variant="primary" onClick={updateStatus}>
+                Update Status
+              </Button>
+            </Modal.Footer>
+          )
+          : ''
+      }
     </Modal>
   );
 };

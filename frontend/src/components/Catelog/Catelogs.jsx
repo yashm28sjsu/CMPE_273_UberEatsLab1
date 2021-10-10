@@ -48,17 +48,20 @@ const Catelogs = () => {
     });
 
     return groups.map((group) => {
-      const cols = group.map((restaurant) => (
-        <Col className="restaurant-card">
-          <RestaurantCard
-            restaurant={restaurant}
-            dispatch={dispatch}
-            setRestaurantSelected={setRestaurantSelected}
-            existingFavourite={favourites.filter((fav) => fav.RestaurantId === restaurant.id)}
-            key={restaurant.id}
-          />
-        </Col>
-      ));
+      const cols = group.map((restaurant) => {
+        console.log(JSON.stringify(favourites.filter((fav) => fav.RestaurantId === restaurant.id)));
+        return (
+          <Col className="restaurant-card">
+            <RestaurantCard
+              restaurant={restaurant}
+              dispatch={dispatch}
+              setRestaurantSelected={setRestaurantSelected}
+              existingFavourite={favourites.filter((fav) => fav.RestaurantId === restaurant.id)}
+              key={restaurant.id}
+            />
+          </Col>
+        );
+      });
       return (
         <Row>
           {cols}
@@ -100,9 +103,12 @@ const Catelogs = () => {
   };
 
   useEffect(() => {
-    getRestaurants();
     getFavourites();
   }, []);
+
+  useEffect(() => {
+    getRestaurants();
+  }, [favourites]);
 
   const chevronWidth = 40;
   const redirect = restaurantSelected ? (<Redirect to="/menu" />) : '';

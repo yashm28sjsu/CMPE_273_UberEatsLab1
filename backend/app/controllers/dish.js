@@ -23,6 +23,7 @@ const create = async (req, res) => {
 
 const update = async (req, res) => {
   const { dish } = req.body;
+  console.log(dish);
 
   const validation = db.Dish.schema.validate(dish);
 
@@ -44,6 +45,7 @@ const update = async (req, res) => {
         res.json({ error: 'Dish does not exist!' });
       }
     } catch (err) {
+      console.log(err);
       res.status(200).json({ error: err });
     }
   } else {

@@ -8,10 +8,17 @@ const Sidebar = () => {
   const isOrders = window.location.href.includes('orders');
   const isAddresses = window.location.href.includes('addresses');
   const isFavourites = window.location.href.includes('favourites');
+  const isDishes = window.location.href.includes('dishes');
   const location = window.location.href.includes('restaurant') ? '/restaurant' : '/user';
 
-  const addresses = window.location.href.includes('restaurant')
-    ? ''
+  const conditional = window.location.href.includes('restaurant')
+    ? (
+      <div>
+        <Button variant="primary" className={`${isDishes ? 'active' : ''} sidebar-button`}>
+          <Link to={`${location}/dishes`} className="sidebar-link">Dishes</Link>
+        </Button>
+      </div>
+    )
     : (
       <div>
         <Button variant="primary" className={`${isAddresses ? 'active' : ''} sidebar-button`}>
@@ -31,7 +38,7 @@ const Sidebar = () => {
       <Button variant="primary" className={`${isOrders ? 'active' : ''} sidebar-button`}>
         <Link to={`${location}/orders`} className="sidebar-link">Orders</Link>
       </Button>
-      {addresses}
+      {conditional}
     </div>
   );
 };

@@ -55,10 +55,10 @@ const RestaurantCard = ({
   };
 
   const favouriteListener = async (_e) => {
-    if (favourite === null) {
-      await favouriteRestaurant();
-    } else {
+    if (favourite != null) {
       await unfavouriteRestaurant();
+    } else {
+      await favouriteRestaurant();
     }
   };
 
@@ -72,7 +72,11 @@ const RestaurantCard = ({
     >
       <Card.Img
         variant="top"
-        src={restaurant.picture}
+        src={
+          restaurant.picture && restaurant.picture.length > 0
+            ? restaurant.picture
+            : 'https://cdn.shopify.com/s/files/1/1533/4185/files/UE_Logo_Horizontal_RGB_Pepper_Green_2x_009564db-7d56-4259-b812-ca98a9f89779.png?height=628&pad_color=fff&v=1612214712&width=1200'
+        }
         onClick={(_e) => selectRestaurant(dispatch, setRestaurantSelected, restaurant)}
       />
       <Card.Body>
@@ -87,7 +91,7 @@ const RestaurantCard = ({
           $0 Delivery Fee 25–35 min
           {/* {restaurant.deliveryTime} */}
         </Card.Text>
-        <Button variant="primary" type="submit" className="submit" onClick={(e) => favouriteListener(e)}>{favourite === null ? 'Favourite' : 'Un-Favourite'}</Button>
+        <Button variant="primary" type="submit" className="submit" onClick={(e) => favouriteListener(e)}>{favourite != null ? 'Un-Favourite' : 'Favourite'}</Button>
       </Card.Body>
     </Card>
   );

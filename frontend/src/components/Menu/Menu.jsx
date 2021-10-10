@@ -37,7 +37,7 @@ const Menu = () => {
         <Col className="restaurant-card">
           <DishCard
             dish={dish}
-            key={dish.name}
+            key={dish.id}
             show={show}
             setShow={setShow}
             setSelectedDish={setSelectedDish}

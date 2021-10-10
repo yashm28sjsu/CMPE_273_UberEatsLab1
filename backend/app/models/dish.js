@@ -37,7 +37,7 @@ module.exports = (sequelize, DataTypes) => {
 
     category: Joi.string().allow(null),
 
-    type: Joi.string().valid('VEG', 'VEGAN').allow(null),
+    type: Joi.string().valid('VEG', 'VEGAN', '').allow(null),
 
     RestaurantId: Joi.number().integer(),
 
