@@ -12,6 +12,8 @@
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.0.1",
+    "chai": "^4.3.4",
+    "chai-http": "^4.3.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "joi": "^17.4.2",

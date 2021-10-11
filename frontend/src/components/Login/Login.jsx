@@ -58,7 +58,7 @@ const Login = () => {
   const loginText = isRestaurant ? 'Looking to order your favourite food?' : 'Looking for your restaurant login?';
   const loginURL = isRestaurant ? '/user/login' : '/restaurant/login';
 
-  const redirectTag = isRestaurant ? (<Redirect to="/restaurant/profile" />) : (<Redirect to="/feed" />);
+  const redirectTag = isRestaurant ? (<Redirect to="/restaurant/orders" />) : (<Redirect to="/feed" />);
   const redirect = isLoggedIn ? redirectTag : '';
 
   return (

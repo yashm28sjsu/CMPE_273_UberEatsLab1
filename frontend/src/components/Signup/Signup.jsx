@@ -57,7 +57,7 @@ const Signup = () => {
   const dispatch = useDispatch();
 
   const isRestaurant = window.location.href.includes('restaurant');
-  const redirectTag = isRestaurant ? (<Redirect to="/restaurant/profile" />) : (<Redirect to="/feed" />);
+  const redirectTag = isRestaurant ? (<Redirect to="/restaurant/dishes" />) : (<Redirect to="/feed" />);
   const redirect = isLoggedIn ? redirectTag : '';
   const formData = isRestaurant
     ? (

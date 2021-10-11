@@ -71,7 +71,9 @@ module.exports = (sequelize, DataTypes) => {
 
     picture: Joi.string().uri().allow(null),
 
-    // userId: Joi.number(),
+    deliveryMode: Joi.string().valid('', 'DELIVERY', 'PICKUP'),
+
+    type: Joi.string().valid('', 'VEG', 'VEGAN'),
 
   });
 
@@ -80,6 +82,8 @@ module.exports = (sequelize, DataTypes) => {
     email: DataTypes.STRING,
     password: DataTypes.STRING,
     tags: DataTypes.STRING,
+    type: DataTypes.STRING,
+    deliveryMode: DataTypes.STRING,
     address: DataTypes.STRING,
     starttime: DataTypes.STRING,
     endtime: DataTypes.STRING,

@@ -42,6 +42,24 @@ const Restaurant = ({ onChangeListener, setUser, error }) => (
         <Form.Control type="password" required placeholder="Password" name="password" onChange={(e) => onChangeListener(e, setUser)} />
       </Col>
     </Form.Group>
+    <Form.Group className="mb-3">
+      <Col sm="10">
+        <Form.Control as="select" name="type" onChange={(e) => onChangeListener(e, setUser)}>
+          <option value="">NON-VEG</option>
+          <option value="VEG">VEG</option>
+          <option value="VEGAN">VEGAN</option>
+        </Form.Control>
+      </Col>
+    </Form.Group>
+    <Form.Group className="mb-3">
+      <Col sm="10">
+        <Form.Control as="select" name="deliveryMode" onChange={(e) => onChangeListener(e, setUser)}>
+          <option value="">PICKUP & DELIVERY</option>
+          <option value="DELIVERY">DELIVERY</option>
+          <option value="PICKUP">PICKUP</option>
+        </Form.Control>
+      </Col>
+    </Form.Group>
     <Form.Group as={Row} className="mb-3" controlId="formPlaintextCountry">
       <Col sm="10">
         <Form.Control as="select" name="country" required onChange={(e) => onChangeListener(e, setUser)}>

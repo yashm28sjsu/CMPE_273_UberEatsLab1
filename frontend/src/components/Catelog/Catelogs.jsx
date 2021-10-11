@@ -22,9 +22,11 @@ const Catelogs = () => {
   const user = useSelector((state) => state.user);
   const [activeItemIndex, setActiveItemIndex] = useState(0);
   const [restaurantSelected, setRestaurantSelected] = useState(false);
+  const [allRestaurants, setAllRestaurants] = useState([]);
   const [popularCards, setPopularCards] = useState([]);
   const [allCards, setAllCards] = useState([]);
   const [favourites, setFavourites] = useState([]);
+  const search = useSelector((state) => state.search);
   const dispatch = useDispatch();
 
   const getPopularCards = (restaurants) => restaurants.map((restaurant) => (
@@ -78,6 +80,7 @@ const Catelogs = () => {
         && response.data.restaurants != null
         && response.data.restaurants) {
         const { restaurants } = response.data;
+        setAllRestaurants(restaurants);
         setPopularCards(getPopularCards(restaurants));
         setAllCards(getAllCards(restaurants));
       }
@@ -109,6 +112,20 @@ const Catelogs = () => {
   useEffect(() => {
     getRestaurants();
   }, [favourites]);
+
+  useEffect(() => {
+    const filtered = allRestaurants.filter((restaurant) => {
+      const isVeg = search.veg && JSON.stringify(restaurant).includes('VEG');
+      const isVegan = search.vegan && JSON.stringify(restaurant).includes('VEGAN');
+      return (
+        JSON.stringify(restaurant).includes(search.text)
+        || JSON.stringify(restaurant).includes(search.deliveryMode)
+        || isVeg || isVegan
+      );
+    });
+    setPopularCards(getPopularCards(filtered));
+    setAllCards(getAllCards(filtered));
+  }, [search]);
 
   const chevronWidth = 40;
   const redirect = restaurantSelected ? (<Redirect to="/menu" />) : '';

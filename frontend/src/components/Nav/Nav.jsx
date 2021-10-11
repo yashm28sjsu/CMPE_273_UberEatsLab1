@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Redirect, Link } from 'react-router-dom';
+import { Redirect, Link, useHistory } from 'react-router-dom';
 import {
   Navbar,
   Container,
@@ -11,21 +11,33 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShoppingCart, faUser } from '@fortawesome/free-solid-svg-icons';
 import userActions from '../../actions/user';
+import searchActions from '../../actions/search';
 import './Nav.css';
 import CartModal from './CartModal';
-
-const logout = (e, dispatch) => {
-  window.localStorage.setItem('token', {});
-  dispatch(userActions.getLogoutAction());
-};
 
 const Nav = () => {
   const dispatch = useDispatch();
   const dishes = useSelector((state) => state.dishes);
   const [redirectProfile, setRedirectProfile] = useState(false);
+  const [loggedOut, setLoggedOut] = useState(false);
   const [show, setShow] = useState(false);
+  const history = useHistory();
 
-  const redirect = redirectProfile ? <Redirect to="/user/profile" /> : '';
+  let redirect = redirectProfile ? <Redirect to="/user/orders" /> : '';
+  if (loggedOut) {
+    redirect = redirectProfile ? <Redirect to="/user/login" /> : '';
+  }
+
+  const logout = () => {
+    window.localStorage.setItem('token', {});
+    dispatch(userActions.getLogoutAction());
+    setLoggedOut(true);
+    history.push('/user/login');
+  };
+
+  const search = (e) => {
+    dispatch(searchActions.getSearchTextUpdatedAction(e.target.value));
+  };
 
   return (
     <Navbar expand="lg">
@@ -46,13 +58,14 @@ const Nav = () => {
               placeholder="What are you craving?"
               className="mr-2 search"
               aria-label="Search"
+              onChange={(e) => search(e)}
             />
           </Form>
           <FontAwesomeIcon icon={faShoppingCart} className="navbar-margin" onClick={(_e) => setShow(true)} />
           <span>{dishes.dishes.length}</span>
           <FontAwesomeIcon icon={faUser} className="navbar-margin" onClick={(_e) => setRedirectProfile(true)} />
           <Navigation className="me-auto">
-            <Navigation.Link onClick={(e) => logout(e, dispatch)}>Sign Out</Navigation.Link>
+            <Navigation.Link onClick={(_e) => logout()}>Sign Out</Navigation.Link>
           </Navigation>
         </Navbar.Collapse>
       </Container>

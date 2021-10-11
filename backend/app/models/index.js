@@ -1,3 +1,5 @@
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable no-param-reassign */
 const fs = require('fs');
 const path = require('path');
 const Sequelize = require('sequelize');
@@ -13,6 +15,20 @@ const db = {};
 
 // get db instance
 const sequelize = new Sequelize(config.database, config.username, config.password, config);
+
+// Sequelize.addHook('afterInit', (sqlize) => {
+//   sqlize.options.handleDisconnects = false;
+
+//   // Disable pool completely
+//   sqlize.connectionManager.pool.destroyAllNow();
+//   sqlize.connectionManager.pool = null;
+//   sqlize.connectionManager.getConnection = function getConnection() {
+//     return this._connect(sqlize.config);
+//   };
+//   sqlize.connectionManager.releaseConnection = function releaseConnection(connection) {
+//     return this._disconnect(connection);
+//   };
+// });
 
 // get all model files except this one and add to db object
 fs.readdirSync(__dirname)

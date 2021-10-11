@@ -1,3 +1,4 @@
+// test
 const express = require('express');
 const cors = require('cors');
 const db = require('./models');
@@ -17,6 +18,7 @@ const port = 3000;
 
 // Allow Access Control
 app.use((req, res, next) => {
+  // res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3001');
   res.setHeader('Access-Control-Allow-Origin', 'http://3.135.61.25:3001');
   res.setHeader('Access-Control-Allow-Credentials', 'true');
   res.setHeader(
@@ -52,3 +54,5 @@ app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
   console.log(db.User);
 });
+
+module.exports = app;

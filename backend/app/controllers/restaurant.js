@@ -86,7 +86,7 @@ const login = async (req, res) => {
 
 const getAll = async (_req, res) => {
   const restaurants = await db.Restaurant.findAll({
-    attributes: ['id', 'name', 'picture', 'description', 'tags'],
+    attributes: ['id', 'name', 'picture', 'description', 'tags', 'type', 'address'],
   });
   res.json({ restaurants });
 };
