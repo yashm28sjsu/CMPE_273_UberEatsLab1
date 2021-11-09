@@ -1,38 +1,24 @@
-// const bcrypt = require('bcrypt');
-// const jwt = require('jsonwebtoken');
-// const secrets = require('../config/access.json');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const secrets = require('../config/access.json');
 const topics = require('../topics');
 
 const { User, UserSchema } = require('../models/user');
 
-const handleRequest = (topic, body, callback) => {
-  switch (topic) {
-    case topics.USER_CREATE:
-      create(body, callback);
-      break;
-    // case topics.USER_UPDATE:
-    //   update(body, callback);
-    //   break;
-    // case topics.USER_LOGIN:
-    //   login(body, callback);
-    //   break;
-    default:
-      break;
-  }
-}
+const EXPIRATION_TIME = '1h';
 
-// async function hashPassword(password) {
-//   const salt = await bcrypt.genSalt(10);
-//   const hash = await bcrypt.hash(password, salt);
-//   return hash;
-// }
+const hashPassword = async (password) => {
+  const salt = await bcrypt.genSalt(10);
+  const hash = await bcrypt.hash(password, salt);
+  return hash;
+};
 
-const create = async (user, callback) => {
-  console.log(user);
+const create = async (data, callback) => {
+  console.log(`${JSON.stringify(data)}`);
 
-  // const hash = await hashPassword(user.password);
+  const hash = await hashPassword(data.password);
 
-  // user.password = hash;
+  const user = { ...data, password: hash };
   const validation = UserSchema.validate(user);
 
   if (!validation.error) {
@@ -43,33 +29,32 @@ const create = async (user, callback) => {
       console.log(`QUERY: ${existing}`);
       if (existing === null) {
         const dbuser = new User(user);
-        dbuser.save();
-        console.log(dbuser);
-        // const token = jwt.sign(
-        //   { id: dbuser.id },
-        //   secrets.access_token_secret,
-        //   { expiresIn: EXPIRATION_TIME },
-        // );
-        // const {
-        //   createdAt, updatedAt, password, ...remaining
-        // } = dbuser.dataValues;
-        // res.json({ user: { ...remaining, type: 'USER' }, token });
-        callback(null, dbuser);
+        dbuser.save((error, saved) => {
+          if (!error) {
+            console.log(saved);
+            const token = jwt.sign(
+              // eslint-disable-next-line no-underscore-dangle
+              { id: saved._id },
+              secrets.access_token_secret,
+              { expiresIn: EXPIRATION_TIME },
+            );
+            const { password, ...remaining } = user;
+            // eslint-disable-next-line no-underscore-dangle
+            callback(null, { user: { id: saved._id, ...remaining, type: 'USER' }, token });
+          } else {
+            console.log(error);
+            callback({ error }, null);
+          }
+        });
       } else {
-        // res.json({
-        //   error:
-        //     'Account already exists for this email address. Please verify and try again.',
-        // });
-        callback('Account already exists for this email address. Please verify and try again.', null);
+        callback({ error: 'Account already exists for this email address. Please verify and try again.' }, null);
       }
     } catch (err) {
       console.log(err);
-      // res.status(200).json({ error: err });
-      callback(err, null)
+      callback({ error: err }, null);
     }
   } else {
-    // res.status(200).json({ error: validation.error.details[0].message });
-    callback(validation.error.details[0].message, null)
+    callback({ error: validation.error.details[0].message }, null);
   }
 };
 
@@ -142,6 +127,23 @@ const create = async (user, callback) => {
 //     res.status(200).json({ error: err });
 //   }
 // };
+
+const handleRequest = (topic, body, callback) => {
+  switch (topic) {
+    case topics.USER_CREATE:
+      create(body, callback);
+      break;
+    // case topics.USER_UPDATE:
+    //   update(body, callback);
+    //   break;
+    // case topics.USER_LOGIN:
+    //   login(body, callback);
+    //   break;
+    default:
+      break;
+  }
+}
+
 
 module.exports = {
   handleRequest,

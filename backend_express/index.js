@@ -43,7 +43,7 @@ app.post('/user/create', (req, res) => {
     if (error) {
       res.send({ error });
     } else {
-      res.send(response);
+      res.send({ response });
     }
 
   });

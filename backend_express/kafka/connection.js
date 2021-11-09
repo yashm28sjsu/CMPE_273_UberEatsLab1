@@ -1,27 +1,46 @@
-const { KafkaClient, HighLevelConsumer, HighLevelProducer } = require('kafka-node');
+const {
+  KafkaClient, Consumer, HighLevelProducer, Offset,
+} = require('kafka-node');
+const topics = require('../topics');
 
 class ConnectionProvider {
-
   constructor() {
-    if (ConnectionProvider._connection) {
-      return ConnectionProvider._connection;
+    if (ConnectionProvider.connection) {
+      return ConnectionProvider.connection;
     }
-    ConnectionProvider._connection = this;
-    this._client = new KafkaClient("localhost:2181");
-    this._client.on('ready', () => console.log('Kafka Client is now ready...'));
+    ConnectionProvider.connection = this;
+    this.client = new KafkaClient('localhost:2181');
+    this.client.on('ready', () => console.log('Kafka Client is now ready...'));
   }
 
-  getConsumer = (topic) => {
-    return new HighLevelConsumer(this._client, [{ topic, partition: 0, fromOffset: -1 }], { autoCommit: false });
+  setConsumer(topic, callback) {
+    const offset = new Offset(this.client);
+
+    offset.fetch([{ topic, partition: 0, time: -1 }], (_err, data) => {
+      const latestOffset = data[topic]['0'][0];
+      console.log(`Consumer current offset: ${latestOffset}`);
+      const consumer = new Consumer(
+        this.client,
+        [{ topic: topics.RESPONSE, partition: 0, offset: latestOffset }],
+        { autoCommit: false, fromOffset: true },
+      );
+      console.log(`Server is listening to topic ${topic}...`);
+
+      consumer.on('error', (error) => {
+        console.log(error);
+      });
+
+      consumer.on('offsetOutOfRange', () => console.log('Offset Out Of Range'));
+      consumer.on('message', (message) => callback(message));
+    });
   }
 
-  getProducer = () => {
+  getProducer() {
     if (!this.producer) {
-      this.producer = new HighLevelProducer(this._client);
+      this.producer = new HighLevelProducer(this.client);
     }
     return this.producer;
   }
-
 }
 
 module.exports = new ConnectionProvider();

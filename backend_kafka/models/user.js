@@ -13,6 +13,7 @@ const schema = new Schema({
   contact: String,
 });
 
+// eslint-disable-next-line new-cap
 const User = new model('User', schema);
 
 const UserSchema = Joi.object({
@@ -63,4 +64,4 @@ const UserSchema = Joi.object({
 module.exports = {
   User,
   UserSchema,
-}
+};
