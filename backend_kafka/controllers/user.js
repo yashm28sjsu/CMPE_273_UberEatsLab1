@@ -77,7 +77,7 @@ const update = async (user, callback) => {
           } else {
             callback(
               {
-                error: 'Account already exists for this email address. Please verify and try again.'
+                error: 'Account already exists for this email address. Please verify and try again.',
               },
               null,
             );
@@ -107,7 +107,7 @@ const login = async (user, callback) => {
           secrets.access_token_secret,
           { expiresIn: EXPIRATION_TIME },
         );
-        console.log (JSON.stringify(existing));
+        console.log(JSON.stringify(existing));
         const {
           password,
           ...dbuser
