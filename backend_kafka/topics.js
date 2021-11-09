@@ -4,8 +4,8 @@ const USER_LOGIN = 'user_login';
 const RESPONSE = 'response';
 
 module.exports = {
-    USER_CREATE,
-    USER_UPDATE,
-    USER_LOGIN,
-    RESPONSE,
-}
+  USER_CREATE,
+  USER_UPDATE,
+  USER_LOGIN,
+  RESPONSE,
+};

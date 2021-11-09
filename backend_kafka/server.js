@@ -8,7 +8,7 @@ const user = require('./controllers/user');
 const handleRequest = (message, route, topic) => {
   const producer = connection.getProducer();
 
-  console.log(`Received new message: ${JSON.stringify(message.value)}`);
+  console.log(`Received new message: ${topic} ${JSON.stringify(message.value)}`);
   const { data, correlationId } = JSON.parse(message.value);
 
   route.handleRequest(topic, data, (error, response) => {
@@ -27,8 +27,8 @@ const main = async () => {
   await mongoose.connect(dbconfig.development.url);
   console.log('Database Connected');
   connection.setConsumer(topics.USER_CREATE, user, handleRequest);
-  // handleRequest(topics.USER_UPDATE, user);
-  // handleRequest(topics.USER_LOGIN, user);
+  connection.setConsumer(topics.USER_UPDATE, user, handleRequest);
+  connection.setConsumer(topics.USER_LOGIN, user, handleRequest);
 };
 
 main();

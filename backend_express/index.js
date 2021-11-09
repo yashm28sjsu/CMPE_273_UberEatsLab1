@@ -2,12 +2,6 @@ const express = require('express');
 const cors = require('cors');
 const kafka = require('./kafka/client');
 const topics = require('./topics');
-// const userRoutes = require('./routes/user');
-// const restaurantRoutes = require('./routes/restaurant');
-// const dishRoutes = require('./routes/dish');
-// const addressRoutes = require('./routes/address');
-// const favouritesRoutes = require('./routes/favourites');
-// const orderRoutes = require('./routes/order');
 
 const app = express();
 // use cors to allow cross origin resource sharing
@@ -33,12 +27,8 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get('/', (_, res) => {
-  res.send('Welcome to Uber Eats APIs. This is the homepage, please use proper path for respective APIs.');
-});
-
-app.post('/user/create', (req, res) => {
-  kafka.makeRequest(topics.USER_CREATE, req.body, (error, response) => {
+const handleRequest = (topic, req, res) => {
+  kafka.makeRequest(topic, req.body, (error, response) => {
 
     if (error) {
       res.send({ error });
@@ -47,14 +37,15 @@ app.post('/user/create', (req, res) => {
     }
 
   });
+};
+
+app.get('/', (_, res) => {
+  res.send('Welcome to Uber Eats APIs. This is the homepage, please use proper path for respective APIs.');
 });
 
-// app.use('/user', userRoutes);
-// app.use('/restaurant', restaurantRoutes);
-// app.use('/dish', dishRoutes);
-// app.use('/address', addressRoutes);
-// app.use('/favourites', favouritesRoutes);
-// app.use('/order', orderRoutes);
+app.post('/user/create', (req, res) => handleRequest(topics.USER_CREATE, req, res));
+app.post('/user/update', (req, res) => handleRequest(topics.USER_UPDATE, req, res));
+app.post('/user/login', (req, res) => handleRequest(topics.USER_LOGIN, req, res));
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);

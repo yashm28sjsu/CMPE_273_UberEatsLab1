@@ -17,7 +17,7 @@ const schema = new Schema({
 const User = new model('User', schema);
 
 const UserSchema = Joi.object({
-  id: Joi.number(),
+  id: Joi.string(),
 
   firstname: Joi.string()
     .alphanum()

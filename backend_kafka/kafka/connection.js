@@ -3,23 +3,17 @@ const {
 } = require('kafka-node');
 
 class ConnectionProvider {
-  constructor() {
-    if (ConnectionProvider.connection) {
-      return ConnectionProvider.connection;
-    }
-    ConnectionProvider.connection = this;
-    this.client = new KafkaClient('localhost:2181');
-    this.client.on('ready', () => console.log('Kafka Client is now ready...'));
-  }
-
+  // eslint-disable-next-line class-methods-use-this
   setConsumer(topic, route, handleRequest) {
-    const offset = new Offset(this.client);
+    const client = new KafkaClient('localhost:2181');
+    client.on('ready', () => console.log('Kafka Client is now ready...'));
+    const offset = new Offset(client);
 
     offset.fetch([{ topic, partition: 0, time: -1 }], (_err, data) => {
       const latestOffset = data[topic]['0'][0];
-      console.log(`Consumer current offset: ${latestOffset}`);
+      console.log(`Consumer current offset: ${topic} ${latestOffset}`);
       const consumer = new Consumer(
-        this.client,
+        client,
         [{ topic, partition: 0, offset: latestOffset }],
         { autoCommit: false, fromOffset: true },
       );
@@ -35,8 +29,10 @@ class ConnectionProvider {
   }
 
   getProducer() {
+    const client = new KafkaClient('localhost:2181');
+    client.on('ready', () => console.log('Kafka Client is now ready...'));
     if (!this.producer) {
-      this.producer = new HighLevelProducer(this.client);
+      this.producer = new HighLevelProducer(client);
     }
     return this.producer;
   }

@@ -13,9 +13,12 @@ const hashPassword = async (password) => {
   return hash;
 };
 
-const create = async (data, callback) => {
-  console.log(`${JSON.stringify(data)}`);
+async function comparePassword(password, hashedPassword) {
+  const isSame = await bcrypt.compare(password, hashedPassword);
+  return isSame;
+}
 
+const create = async (data, callback) => {
   const hash = await hashPassword(data.password);
 
   const user = { ...data, password: hash };
@@ -26,7 +29,6 @@ const create = async (data, callback) => {
       const existing = await User.findOne({
         email: user.email,
       }).exec();
-      console.log(`QUERY: ${existing}`);
       if (existing === null) {
         const dbuser = new User(user);
         dbuser.save((error, saved) => {
@@ -38,11 +40,10 @@ const create = async (data, callback) => {
               secrets.access_token_secret,
               { expiresIn: EXPIRATION_TIME },
             );
-            const { password, ...remaining } = user;
+            const { password, ...remaining } = saved.toJSON();
             // eslint-disable-next-line no-underscore-dangle
-            callback(null, { user: { id: saved._id, ...remaining, type: 'USER' }, token });
+            callback(null, { user: { ...remaining, type: 'USER' }, token });
           } else {
-            console.log(error);
             callback({ error }, null);
           }
         });
@@ -50,7 +51,6 @@ const create = async (data, callback) => {
         callback({ error: 'Account already exists for this email address. Please verify and try again.' }, null);
       }
     } catch (err) {
-      console.log(err);
       callback({ error: err }, null);
     }
   } else {
@@ -58,92 +58,88 @@ const create = async (data, callback) => {
   }
 };
 
-// const update = async (req, res) => {
-//   const user = req.body;
-//   console.log(user);
+const update = async (user, callback) => {
+  // TODO: CHECK FOR EMAIL UPDATE DUPLICATION
+  console.log(user);
 
-//   const validation = db.User.schema.validate(user);
+  const validation = UserSchema.validate(user);
 
-//   if (!validation.error) {
-//     try {
-//       const existing = await db.User.findOne({
-//         attributes: ['id'],
-//         where: {
-//           email: user.email,
-//           id: {
-//             [db.Sequelize.Op.not]: user.id,
-//           },
-//         },
-//       });
-//       console.log(`QUERY: ${existing}`);
-//       if (existing === null) {
-//         const dbuser = await db.User.update(
-//           user,
-//           { where: { id: user.id } },
-//         );
-//         console.log(dbuser);
-//         res.json(dbuser);
-//       } else {
-//         res.json({ error: 'Account already exists for this email address. Please verify and try again.' });
-//       }
-//     } catch (err) {
-//       console.log(err);
-//       res.status(200).json({ error: err });
-//     }
-//   } else {
-//     res.status(200).json({ error: validation.error });
-//   }
-// };
+  if (!validation.error) {
+    try {
+      User.findOneAndUpdate(
+        { _id: user.id },
+        user,
+        { new: true },
+        (error, updated) => {
+          if (!error) {
+            const { password, ...remaining } = updated.toJSON();
+            callback(null, remaining);
+          } else {
+            callback(
+              {
+                error: 'Account already exists for this email address. Please verify and try again.'
+              },
+              null,
+            );
+          }
+        },
+      );
+    } catch (err) {
+      console.log(err);
+      callback({ error: err }, null);
+    }
+  } else {
+    callback({ error: validation.error }, null);
+  }
+};
 
-// const login = async (req, res) => {
-//   const email = req.body.username;
-//   try {
-//     const existing = await db.User.findOne({
-//       where: { email },
-//     });
-//     if (existing != null) {
-//       const match = await comparePassword(req.body.password, existing.password);
-//       if (match) {
-//         const token = jwt.sign(
-//           { id: existing.id },
-//           secrets.access_token_secret,
-//           { expiresIn: EXPIRATION_TIME },
-//         );
-//         const {
-//           password,
-//           createdAt,
-//           updatedAt,
-//           ...user
-//         } = existing.dataValues;
-//         res.json({ user: { ...user, type: 'USER' }, token });
-//       } else {
-//         res.json({ error: 'Username and/or Password are not correct. Please verify and try again.' });
-//       }
-//     } else {
-//       res.json({ error: 'User does not exist with given Email Address.' });
-//     }
-//   } catch (err) {
-//     console.log(err);
-//     res.status(200).json({ error: err });
-//   }
-// };
+const login = async (user, callback) => {
+  const email = user.username;
+  try {
+    const existing = await User.findOne({
+      email,
+    }).exec();
+    if (existing != null) {
+      const match = await comparePassword(user.password, existing.password);
+      if (match) {
+        const token = jwt.sign(
+          { id: existing.id },
+          secrets.access_token_secret,
+          { expiresIn: EXPIRATION_TIME },
+        );
+        console.log (JSON.stringify(existing));
+        const {
+          password,
+          ...dbuser
+        } = existing.toJSON();
+        callback(null, { user: { ...dbuser, type: 'USER' }, token });
+      } else {
+        callback({ error: 'Username and/or Password are not correct. Please verify and try again.' }, null);
+      }
+    } else {
+      callback({ error: 'User does not exist with given Email Address.' }, null);
+    }
+  } catch (err) {
+    console.log(err);
+    callback({ error: err }, null);
+  }
+};
 
 const handleRequest = (topic, body, callback) => {
   switch (topic) {
     case topics.USER_CREATE:
       create(body, callback);
       break;
-    // case topics.USER_UPDATE:
-    //   update(body, callback);
-    //   break;
-    // case topics.USER_LOGIN:
-    //   login(body, callback);
-    //   break;
+    case topics.USER_UPDATE:
+      update(body, callback);
+      break;
+    case topics.USER_LOGIN:
+      login(body, callback);
+      break;
     default:
       break;
   }
-}
-
+};
 
 module.exports = {
   handleRequest,
