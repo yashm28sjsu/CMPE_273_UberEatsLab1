@@ -7,6 +7,7 @@ const user = require('./controllers/user');
 const restaurant = require('./controllers/restaurant');
 const dish = require('./controllers/dish');
 const order = require('./controllers/order');
+const address = require('./controllers/address');
 
 const handleRequest = (message, route, topic) => {
   const producer = connection.getProducer();
@@ -47,6 +48,10 @@ const main = async () => {
   connection.setConsumer(topics.ORDER_UPDATESTATUS, order, handleRequest);
   connection.setConsumer(topics.USER_GETORDERS, order, handleRequest);
   connection.setConsumer(topics.RESTAURANT_GETORDERS, order, handleRequest);
+
+  connection.setConsumer(topics.ADDRESS_CREATE, address, handleRequest);
+  connection.setConsumer(topics.ADDRESS_UPDATE, address, handleRequest);
+  connection.setConsumer(topics.USER_GETADDRESSES, address, handleRequest);
 };
 
 main();

@@ -16,6 +16,10 @@ const ORDER_UPDATESTATUS = 'order_updatestatus';
 const USER_GETORDERS = 'user_getorders';
 const RESTAURANT_GETORDERS = 'restaurant_getorders';
 
+const ADDRESS_CREATE = 'address_create';
+const ADDRESS_UPDATE = 'address_update';
+const USER_GETADDRESSES = 'user_getaddresses';
+
 const RESPONSE = 'response';
 
 module.exports = {
@@ -33,5 +37,8 @@ module.exports = {
   ORDER_UPDATESTATUS,
   USER_GETORDERS,
   RESTAURANT_GETORDERS,
+  ADDRESS_CREATE,
+  ADDRESS_UPDATE,
+  USER_GETADDRESSES,
   RESPONSE,
 };

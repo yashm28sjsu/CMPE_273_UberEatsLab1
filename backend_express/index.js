@@ -70,6 +70,10 @@ app.post('/order/updatestatus', authenticateRestaurant, (req, res) => handleRequ
 app.post('/user/getorders', authenticateUser, (req, res) => handleRequest(topics.USER_GETORDERS, req, res));
 app.post('/restaurant/getorders', authenticateRestaurant, (req, res) => handleRequest(topics.RESTAURANT_GETORDERS, req, res));
 
+app.post('/address/create', (req, res) => handleRequest(topics.ADDRESS_CREATE, req, res));
+app.post('/address/update', (req, res) => handleRequest(topics.ADDRESS_UPDATE, req, res));
+app.post('/user/getaddresses', (req, res) => handleRequest(topics.USER_GETADDRESSES, req, res));
+
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });

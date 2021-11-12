@@ -10,7 +10,7 @@ const create = async (dish, callback) => {
       const dbdish = new Dish(dish);
       const saved = await dbdish.save();
 
-      callback(null, { dish: saved.JSON() });
+      callback(null, { dish: saved.toJSON() });
     } catch (err) {
       callback({ error: err }, null);
     }
