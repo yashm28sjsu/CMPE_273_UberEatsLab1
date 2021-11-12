@@ -12,6 +12,10 @@
     "cors": "^2.8.5",
     "eslint": "^8.2.0",
     "express": "^4.17.1",
-    "kafka-node": "^5.0.0"
+    "joi": "^17.4.2",
+    "kafka-node": "^5.0.0",
+    "mongoose": "^6.0.12",
+    "passport": "^0.5.0",
+    "passport-jwt": "^4.0.0"
   }
 }

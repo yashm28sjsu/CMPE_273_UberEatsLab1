@@ -1,0 +1,8 @@
+{
+  "development": {
+    "url": "mongodb+srv://admin:z3vCyJcwgjR1PbZs@cluster0.0lry6.mongodb.net/UberEats?retryWrites=true&w=majority"
+  },
+  "production": {
+    "url": "mongodb+srv://admin:z3vCyJcwgjR1PbZs@cluster0.0lry6.mongodb.net/UberEats?retryWrites=true&w=majority"
+  }
+}

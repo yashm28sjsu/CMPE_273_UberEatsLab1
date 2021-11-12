@@ -4,6 +4,7 @@ const topics = require('./topics');
 const dbconfig = require('./config/config.json');
 
 const user = require('./controllers/user');
+const restaurant = require('./controllers/restaurant');
 
 const handleRequest = (message, route, topic) => {
   const producer = connection.getProducer();
@@ -29,6 +30,10 @@ const main = async () => {
   connection.setConsumer(topics.USER_CREATE, user, handleRequest);
   connection.setConsumer(topics.USER_UPDATE, user, handleRequest);
   connection.setConsumer(topics.USER_LOGIN, user, handleRequest);
+  connection.setConsumer(topics.RESTAURANT_CREATE, restaurant, handleRequest);
+  connection.setConsumer(topics.RESTAURANT_LOGIN, restaurant, handleRequest);
+  connection.setConsumer(topics.RESTAURANT_GETALL, restaurant, handleRequest);
+  connection.setConsumer(topics.RESTAURANT_UPDATE, restaurant, handleRequest);
 };
 
 main();

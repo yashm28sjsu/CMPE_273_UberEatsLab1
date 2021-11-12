@@ -1,7 +1,11 @@
 const express = require('express');
-const cors = require('cors');
 const kafka = require('./kafka/client');
+const mongoose = require('mongoose');
+const passport = require("passport");
+const cors = require('cors');
 const topics = require('./topics');
+const { setupPassport, authenticateUser, authenticateRestaurant } = require('./middlewares/passport');
+const dbconfig = require('./config/config.json');
 
 const app = express();
 // use cors to allow cross origin resource sharing
@@ -27,6 +31,11 @@ app.use((req, res, next) => {
   next();
 });
 
+setupPassport();
+app.use(passport.initialize());
+
+mongoose.connect(dbconfig.development.url).then(() => console.log("Database connected"));
+
 const handleRequest = (topic, req, res) => {
   kafka.makeRequest(topic, req.body, (error, response) => {
 
@@ -44,8 +53,13 @@ app.get('/', (_, res) => {
 });
 
 app.post('/user/create', (req, res) => handleRequest(topics.USER_CREATE, req, res));
-app.post('/user/update', (req, res) => handleRequest(topics.USER_UPDATE, req, res));
+app.post('/user/update', authenticateUser, (req, res) => handleRequest(topics.USER_UPDATE, req, res));
 app.post('/user/login', (req, res) => handleRequest(topics.USER_LOGIN, req, res));
+
+app.post('/restaurant/create', (req, res) => handleRequest(topics.RESTAURANT_CREATE, req, res));
+app.post('/restaurant/update', authenticateRestaurant, (req, res) => handleRequest(topics.RESTAURANT_UPDATE, req, res));
+app.post('/restaurant/getall', (req, res) => handleRequest(topics.RESTAURANT_GETALL, req, res));
+app.post('/restaurant/login', (req, res) => handleRequest(topics.RESTAURANT_LOGIN, req, res));
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
