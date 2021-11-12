@@ -8,6 +8,7 @@ const restaurant = require('./controllers/restaurant');
 const dish = require('./controllers/dish');
 const order = require('./controllers/order');
 const address = require('./controllers/address');
+const favourite = require('./controllers/favourite');
 
 const handleRequest = (message, route, topic) => {
   const producer = connection.getProducer();
@@ -52,6 +53,10 @@ const main = async () => {
   connection.setConsumer(topics.ADDRESS_CREATE, address, handleRequest);
   connection.setConsumer(topics.ADDRESS_UPDATE, address, handleRequest);
   connection.setConsumer(topics.USER_GETADDRESSES, address, handleRequest);
+
+  connection.setConsumer(topics.FAVOURITE_CREATE, favourite, handleRequest);
+  connection.setConsumer(topics.FAVOURITE_REMOVE, favourite, handleRequest);
+  connection.setConsumer(topics.USER_GETFAVOURITES, favourite, handleRequest);
 };
 
 main();

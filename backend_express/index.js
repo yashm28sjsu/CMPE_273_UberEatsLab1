@@ -61,18 +61,23 @@ app.post('/restaurant/update', authenticateRestaurant, (req, res) => handleReque
 app.post('/restaurant/getall', (req, res) => handleRequest(topics.RESTAURANT_GETALL, req, res));
 app.post('/restaurant/login', (req, res) => handleRequest(topics.RESTAURANT_LOGIN, req, res));
 
-app.post('/dish/create', (req, res) => handleRequest(topics.DISH_CREATE, req, res));
-app.post('/dish/update', (req, res) => handleRequest(topics.DISH_UPDATE, req, res));
-app.post('/restaurant/getdishes', (req, res) => handleRequest(topics.RESTAURANT_GETDISHES, req, res));
+app.post('/dish/create', authenticateRestaurant, (req, res) => handleRequest(topics.DISH_CREATE, req, res));
+app.post('/dish/update', authenticateRestaurant, (req, res) => handleRequest(topics.DISH_UPDATE, req, res));
+app.post('/restaurant/getdishes', authenticateRestaurant, (req, res) => handleRequest(topics.RESTAURANT_GETDISHES, req, res));
+app.post('/user/getdishes', authenticateUser, (req, res) => handleRequest(topics.RESTAURANT_GETDISHES, req, res));
 
 app.post('/order/create', authenticateUser, (req, res) => handleRequest(topics.ORDER_CREATE, req, res));
 app.post('/order/updatestatus', authenticateRestaurant, (req, res) => handleRequest(topics.ORDER_UPDATESTATUS, req, res));
 app.post('/user/getorders', authenticateUser, (req, res) => handleRequest(topics.USER_GETORDERS, req, res));
 app.post('/restaurant/getorders', authenticateRestaurant, (req, res) => handleRequest(topics.RESTAURANT_GETORDERS, req, res));
 
-app.post('/address/create', (req, res) => handleRequest(topics.ADDRESS_CREATE, req, res));
-app.post('/address/update', (req, res) => handleRequest(topics.ADDRESS_UPDATE, req, res));
-app.post('/user/getaddresses', (req, res) => handleRequest(topics.USER_GETADDRESSES, req, res));
+app.post('/address/create', authenticateUser, (req, res) => handleRequest(topics.ADDRESS_CREATE, req, res));
+app.post('/address/update', authenticateUser, (req, res) => handleRequest(topics.ADDRESS_UPDATE, req, res));
+app.post('/user/getaddresses', authenticateUser, (req, res) => handleRequest(topics.USER_GETADDRESSES, req, res));
+
+app.post('/favourite/create', authenticateUser, (req, res) => handleRequest(topics.FAVOURITE_CREATE, req, res));
+app.post('/favourite/remove', authenticateUser, (req, res) => handleRequest(topics.FAVOURITE_REMOVE, req, res));
+app.post('/user/getfavourites', authenticateUser, (req, res) => handleRequest(topics.USER_GETFAVOURITES, req, res));
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);

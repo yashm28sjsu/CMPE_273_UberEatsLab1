@@ -20,6 +20,10 @@ const ADDRESS_CREATE = 'address_create';
 const ADDRESS_UPDATE = 'address_update';
 const USER_GETADDRESSES = 'user_getaddresses';
 
+const FAVOURITE_CREATE = 'favourite_create';
+const FAVOURITE_REMOVE = 'favourite_remove';
+const USER_GETFAVOURITES = 'user_getfavourites';
+
 const RESPONSE = 'response';
 
 module.exports = {
@@ -40,5 +44,8 @@ module.exports = {
   ADDRESS_CREATE,
   ADDRESS_UPDATE,
   USER_GETADDRESSES,
+  FAVOURITE_CREATE,
+  FAVOURITE_REMOVE,
+  USER_GETFAVOURITES,
   RESPONSE,
 };
