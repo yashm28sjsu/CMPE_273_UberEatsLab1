@@ -5,6 +5,8 @@ const dbconfig = require('./config/config.json');
 
 const user = require('./controllers/user');
 const restaurant = require('./controllers/restaurant');
+const dish = require('./controllers/dish');
+const order = require('./controllers/order');
 
 const handleRequest = (message, route, topic) => {
   const producer = connection.getProducer();
@@ -27,13 +29,24 @@ const handleRequest = (message, route, topic) => {
 const main = async () => {
   await mongoose.connect(dbconfig.development.url);
   console.log('Database Connected');
+
   connection.setConsumer(topics.USER_CREATE, user, handleRequest);
   connection.setConsumer(topics.USER_UPDATE, user, handleRequest);
   connection.setConsumer(topics.USER_LOGIN, user, handleRequest);
+
   connection.setConsumer(topics.RESTAURANT_CREATE, restaurant, handleRequest);
   connection.setConsumer(topics.RESTAURANT_LOGIN, restaurant, handleRequest);
   connection.setConsumer(topics.RESTAURANT_GETALL, restaurant, handleRequest);
   connection.setConsumer(topics.RESTAURANT_UPDATE, restaurant, handleRequest);
+
+  connection.setConsumer(topics.DISH_CREATE, dish, handleRequest);
+  connection.setConsumer(topics.DISH_UPDATE, dish, handleRequest);
+  connection.setConsumer(topics.RESTAURANT_GETDISHES, dish, handleRequest);
+
+  connection.setConsumer(topics.ORDER_CREATE, order, handleRequest);
+  connection.setConsumer(topics.ORDER_UPDATESTATUS, order, handleRequest);
+  connection.setConsumer(topics.USER_GETORDERS, order, handleRequest);
+  connection.setConsumer(topics.RESTAURANT_GETORDERS, order, handleRequest);
 };
 
 main();

@@ -61,6 +61,15 @@ app.post('/restaurant/update', authenticateRestaurant, (req, res) => handleReque
 app.post('/restaurant/getall', (req, res) => handleRequest(topics.RESTAURANT_GETALL, req, res));
 app.post('/restaurant/login', (req, res) => handleRequest(topics.RESTAURANT_LOGIN, req, res));
 
+app.post('/dish/create', (req, res) => handleRequest(topics.DISH_CREATE, req, res));
+app.post('/dish/update', (req, res) => handleRequest(topics.DISH_UPDATE, req, res));
+app.post('/restaurant/getdishes', (req, res) => handleRequest(topics.RESTAURANT_GETDISHES, req, res));
+
+app.post('/order/create', authenticateUser, (req, res) => handleRequest(topics.ORDER_CREATE, req, res));
+app.post('/order/updatestatus', authenticateRestaurant, (req, res) => handleRequest(topics.ORDER_UPDATESTATUS, req, res));
+app.post('/user/getorders', authenticateUser, (req, res) => handleRequest(topics.USER_GETORDERS, req, res));
+app.post('/restaurant/getorders', authenticateRestaurant, (req, res) => handleRequest(topics.RESTAURANT_GETORDERS, req, res));
+
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });
