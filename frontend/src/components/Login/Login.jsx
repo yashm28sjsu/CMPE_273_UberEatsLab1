@@ -21,10 +21,11 @@ const login = async (e, user, dispatch, setLoggedIn, setError) => {
   try {
     const response = await axios.post(url + path, user);
     if (response.status === 200) {
-      if (response.data.token != null) {
-        window.localStorage.setItem('token', response.data.token);
+      const result = response.data.response;
+      if (result.token != null) {
+        window.localStorage.setItem('token', result.token);
         // console.log(response.data.user);
-        dispatch(userActions.getLoginAction(response.data.user));
+        dispatch(userActions.getLoginAction(result.user));
         setLoggedIn(true);
       } else {
         setError(response.data.error);

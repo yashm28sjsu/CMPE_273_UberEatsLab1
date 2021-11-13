@@ -21,13 +21,16 @@ const AddressModal = ({ show, setShow, getAddresses }) => {
     const path = '/address/create/';
     try {
       const headers = {
-        Authorization: `Bearer ${window.localStorage.getItem('token')}`,
+        Authorization: `JWT ${window.localStorage.getItem('token')}`,
       };
-      const response = await axios.post(url + path, { id: user.id, address }, { headers });
-      if (response.status === 200
-        && response.error == null) {
-        await getAddresses();
-        setShow(false);
+      // eslint-disable-next-line no-underscore-dangle
+      const response = await axios.post(url + path, { userId: user._id, ...address }, { headers });
+      if (response.status === 200) {
+        const result = response.data.response;
+        if (result.error == null) {
+          await getAddresses();
+          setShow(false);
+        }
       }
     } catch (err) {
       console.log(err);

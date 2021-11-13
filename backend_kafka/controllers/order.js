@@ -1,6 +1,7 @@
 const topics = require('../topics');
 
 const { Order, OrderSchema } = require('../models/order');
+const { Restaurant } = require('../models/restaurant');
 
 const create = async (order, callback) => {
   console.log(order);
@@ -41,10 +42,22 @@ const updateStatus = async (order, callback) => {
 const getOrders = async (data, callback) => {
   const { userId } = data;
   try {
-    const dborders = await Order.find({
+    const dbo = await Order.find({
       userId,
     });
-    callback(null, { orders: dborders });
+    const dborders = dbo.map((x) => x.toJSON());
+    const restaurantIds = dborders.map((order) => order.restaurantId);
+    const dbrest = await Restaurant.find({
+      _id: { $in: restaurantIds },
+    }).exec();
+    const dbrestaurants = dbrest.map((x) => x.toJSON());
+    // eslint-disable-next-line no-shadow
+    const ordersWithRestaurants = dborders.map(({ restaurantId, ...fav }) => ({
+      ...fav,
+      // eslint-disable-next-line no-underscore-dangle
+      restaurant: dbrestaurants.filter((rest) => rest._id.toString() === restaurantId)[0],
+    }));
+    callback(null, { orders: ordersWithRestaurants });
   } catch (error) {
     callback({ error }, null);
   }
@@ -53,10 +66,22 @@ const getOrders = async (data, callback) => {
 const getRestaurantOrders = async (data, callback) => {
   const { restaurantId } = data;
   try {
-    const dborders = await Order.find({
+    const dbo = await Order.find({
       restaurantId,
     });
-    callback(null, { orders: dborders });
+    const dborders = dbo.map((x) => x.toJSON());
+    const restaurantIds = dborders.map((order) => order.restaurantId);
+    const dbrest = await Restaurant.find({
+      _id: { $in: restaurantIds },
+    }).exec();
+    const dbrestaurants = dbrest.map((x) => x.toJSON());
+    // eslint-disable-next-line no-shadow
+    const ordersWithRestaurants = dborders.map(({ restaurantId, ...fav }) => ({
+      ...fav,
+      // eslint-disable-next-line no-underscore-dangle
+      restaurant: dbrestaurants.filter((rest) => rest._id.toString() === restaurantId)[0],
+    }));
+    callback(null, { orders: ordersWithRestaurants });
   } catch (error) {
     callback({ error }, null);
   }

@@ -16,7 +16,7 @@ const ReceiptModal = ({ show, setShow, order }) => {
   const [status, setStatus] = useState(order.status);
 
   const dishes = order.orderlineitems.map((lineitem) => (
-    <Row key="lineitem.id">
+    <Row key="lineitem._id">
       <Col>
         {lineitem.quantity}
       </Col>
@@ -34,11 +34,11 @@ const ReceiptModal = ({ show, setShow, order }) => {
     const path = '/order/updateStatus/';
     try {
       const headers = {
-        Authorization: `Bearer ${window.localStorage.getItem('token')}`,
+        Authorization: `JWT ${window.localStorage.getItem('token')}`,
       };
       const response = await axios.post(
         url + path,
-        { id: user.id, order: { id: order.id, status } },
+        { id: order.id, status },
         { headers },
       );
       if (response.status === 200

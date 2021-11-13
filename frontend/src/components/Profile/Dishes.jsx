@@ -51,14 +51,21 @@ const Dishes = () => {
   };
 
   const getDishes = async () => {
-    const path = `/dish/getDishes/${user.id}`;
+    const path = '/restaurant/getDishes';
     try {
-      const response = await axios.get(url + path);
-      if (response.status === 200
-        && response.data.dishes != null
-        && response.data.dishes) {
-        const { dishes } = response.data;
-        setDishCards(getDishCards(dishes));
+      const headers = {
+        Authorization: `JWT ${window.localStorage.getItem('token')}`,
+      };
+      // eslint-disable-next-line no-underscore-dangle
+      const response = await axios.post(url + path, { restaurantId: user._id }, { headers });
+      if (response.status === 200) {
+        console.log(JSON.stringify(response.data.response));
+        const result = response.data.response;
+        if (result.dishes != null
+          && result.dishes) {
+          const { dishes } = result;
+          setDishCards(getDishCards(dishes));
+        }
       }
     } catch (err) {
       console.log(err);

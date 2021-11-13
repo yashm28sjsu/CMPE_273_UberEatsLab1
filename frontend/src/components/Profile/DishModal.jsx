@@ -14,7 +14,7 @@ const { url } = config[env];
 const DishModal = ({ show, setShow, dish }) => {
   const user = useSelector((state) => state.user);
   const [dishData, setDishData] = useState({});
-  console.log(dish);
+  // console.log(dish);
   const onChangeListener = (e) => {
     const key = e.target.getAttribute('name');
     const { value } = e.target;
@@ -26,17 +26,19 @@ const DishModal = ({ show, setShow, dish }) => {
 
   const handleClose = () => setShow(false);
   const saveDish = async () => {
-    const path = dish.id ? '/dish/update' : '/dish/create/';
-    console.log(dishData);
+    // eslint-disable-next-line no-underscore-dangle
+    const path = dish._id ? '/dish/update' : '/dish/create/';
+    console.log(JSON.stringify(dishData));
     // eslint-disable-next-line no-unused-vars
-    const { createdAt, updatedAt, ...payload } = dishData;
+    // const { createdAt, updatedAt, ...payload } = dishData;
     try {
       const headers = {
-        Authorization: `Bearer ${window.localStorage.getItem('token')}`,
+        Authorization: `JWT ${window.localStorage.getItem('token')}`,
       };
       const response = await axios.post(
         url + path,
-        { id: user.id, dish: { ...payload, RestaurantId: user.id } },
+        // eslint-disable-next-line no-underscore-dangle
+        { ...dishData, restaurantId: user._id },
         { headers },
       );
       if (response.status === 200

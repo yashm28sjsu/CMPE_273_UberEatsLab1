@@ -32,7 +32,8 @@ const Bill = () => {
 
   const placeOrder = async () => {
     const lines = dishes.dishes.map((dish) => (
-      { cost: dish.price, quantity: dish.qty, DishId: dish.id }
+      // eslint-disable-next-line no-underscore-dangle
+      { cost: dish.price, quantity: dish.qty, dishId: dish._id }
     ));
     const data = produce(order, (draftOrder) => {
       draftOrder.status = 'PLACED';
@@ -40,20 +41,29 @@ const Bill = () => {
       draftOrder.deliverycost = subtotal * 0.2;
       draftOrder.tax = subtotal * 0.09;
       draftOrder.totalcost = subtotal * 1.29;
-      draftOrder.UserId = user.id;
-      draftOrder.RestaurantId = dishes.restaurant.id;
-      draftOrder.orderlineitems = lines;
+      // eslint-disable-next-line no-underscore-dangle
+      draftOrder.userId = user._id;
+      // eslint-disable-next-line no-underscore-dangle
+      draftOrder.restaurantId = dishes.restaurant._id;
+      draftOrder.lineitems = lines;
     });
     const path = '/order/create/';
     try {
       const headers = {
-        Authorization: `Bearer ${window.localStorage.getItem('token')}`,
+        Authorization: `JWT ${window.localStorage.getItem('token')}`,
       };
-      const response = await axios.post(url + path, { id: user.id, order: data }, { headers });
-      if (response.status === 200
-        && response.error == null) {
-        setIsOrderPlaced(true);
-        dispatch(actions.getOrderPlacedAction());
+      const response = await axios.post(
+        url + path,
+        // eslint-disable-next-line no-underscore-dangle
+        { ...data, userId: user._id },
+        { headers },
+      );
+      if (response.status === 200) {
+        const result = response.data.response;
+        if (result.error == null) {
+          setIsOrderPlaced(true);
+          dispatch(actions.getOrderPlacedAction());
+        }
       }
     } catch (err) {
       console.log(err);

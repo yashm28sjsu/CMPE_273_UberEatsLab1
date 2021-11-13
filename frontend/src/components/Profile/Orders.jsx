@@ -22,14 +22,15 @@ const Orders = () => {
   };
 
   const getOrderRows = (orderdata) => orderdata.map((order) => {
-    const dateParts = order.createdAt.split('-');
-    const jsDate = new Date(dateParts[0], dateParts[1] - 1, dateParts[2].substr(0, 2));
+    // const dateParts = order.createdAt.split('-');
+    // const jsDate = new Date(dateParts[0], dateParts[1] - 1, dateParts[2].substr(0, 2));
+    const jsDate = new Date();
 
     return (
       <Row key={order.id} onClick={(_e) => openOrder(order)}>
         <div className="order-row">
-          <h5>{order.Restaurant.name}</h5>
-          <p>{`${order.orderlineitems.length} items for $${order.totalcost} on ${jsDate.toDateString()}`}</p>
+          <h5>{order.restaurant.name}</h5>
+          <p>{`${order.lineitems.length} items for $${order.totalcost} on ${jsDate.toDateString()}`}</p>
           <p>{`Status: ${order.status} Type: ${order.type}`}</p>
         </div>
         <hr />
@@ -38,17 +39,22 @@ const Orders = () => {
   });
 
   const getOrders = async () => {
-    const path = '/order/getOrders/';
+    const path = '/user/getOrders/';
     try {
       const headers = {
-        Authorization: `Bearer ${window.localStorage.getItem('token')}`,
+        Authorization: `JWT ${window.localStorage.getItem('token')}`,
       };
-      const response = await axios.post(url + path, { id: user.id }, { headers });
-      if (response.status === 200
-        && response.error == null) {
-        const data = response.data.orders;
-        setOrders(data);
-        setFilteredOrders(getOrderRows(data));
+      // eslint-disable-next-line no-underscore-dangle
+      const response = await axios.post(url + path, { userId: user._id }, { headers });
+      if (response.status === 200) {
+        const result = response.data.response;
+        console.log(JSON.stringify(result));
+        if (result.error == null) {
+          const data = result.orders;
+          console.log(data);
+          setOrders(data);
+          setFilteredOrders(getOrderRows(data));
+        }
       }
     } catch (err) {
       console.log(err);

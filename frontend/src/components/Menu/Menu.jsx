@@ -53,15 +53,23 @@ const Menu = () => {
   };
 
   const getDishes = async () => {
-    const path = `/dish/getDishes/${selectedRestaurant.id}`;
+    const path = '/user/getDishes/';
     try {
-      const response = await axios.get(url + path);
-      if (response.status === 200
-        && response.data.dishes != null
-        && response.data.dishes) {
-        const { dishes } = response.data;
-        console.log(dishes);
-        setDishCards(getDishCards(dishes));
+      const headers = {
+        Authorization: `JWT ${window.localStorage.getItem('token')}`,
+      };
+      const response = await axios.post(url + path, {
+        // eslint-disable-next-line no-underscore-dangle
+        restaurantId: selectedRestaurant._id,
+      }, { headers });
+      if (response.status === 200) {
+        const result = response.data.response;
+        if (result.dishes != null
+        && result.dishes) {
+          const { dishes } = result;
+          console.log(dishes);
+          setDishCards(getDishCards(dishes));
+        }
       }
     } catch (err) {
       console.log(err);

@@ -25,15 +25,18 @@ const Address = () => {
   ));
 
   const getAddresses = async () => {
-    const path = '/address/getAddresses/';
+    const path = '/user/getaddresses/';
     try {
       const headers = {
-        Authorization: `Bearer ${window.localStorage.getItem('token')}`,
+        Authorization: `JWT ${window.localStorage.getItem('token')}`,
       };
-      const response = await axios.post(url + path, { id: user.id }, { headers });
-      if (response.status === 200
-        && response.error == null) {
-        setAddresses(getAddressRows(response.data.addresses));
+      // eslint-disable-next-line no-underscore-dangle
+      const response = await axios.post(url + path, { userId: user._id }, { headers });
+      if (response.status === 200) {
+        const result = response.data.response;
+        if (result.error == null) {
+          setAddresses(getAddressRows(result.addresses));
+        }
       }
     } catch (err) {
       console.log(err);

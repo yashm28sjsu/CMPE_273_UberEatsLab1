@@ -32,21 +32,24 @@ const OrderLineItems = () => {
   ));
 
   const getAddresses = async () => {
-    const path = '/address/getAddresses/';
+    const path = '/user/getAddresses/';
     try {
       const headers = {
-        Authorization: `Bearer ${window.localStorage.getItem('token')}`,
+        Authorization: `JWT ${window.localStorage.getItem('token')}`,
       };
-      const response = await axios.post(url + path, { id: user.id }, { headers });
-      if (response.status === 200
-        && response.data.addresses != null
-        && response.data.addresses) {
-        setAddresses(response.data.addresses.map((address) => (
-          <option value={JSON.stringify(address)} key={address.id}>{address.name}</option>
-        )));
-        if (response.data.addresses.length > 0) {
-          setSelectedAddress(response.data.addresses[0]);
-          dispatch(actions.getOrderAddressSelectedAction(response.data.addresses[0].id));
+      // eslint-disable-next-line no-underscore-dangle
+      const response = await axios.post(url + path, { userId: user._id }, { headers });
+      if (response.status === 200) {
+        const result = response.data.response;
+        if (result.addresses != null
+          && result.addresses) {
+          setAddresses(result.addresses.map((address) => (
+            <option value={JSON.stringify(address)} key={address.id}>{address.name}</option>
+          )));
+          if (result.addresses.length > 0) {
+            setSelectedAddress(result.addresses[0]);
+            dispatch(actions.getOrderAddressSelectedAction(result.addresses[0].id));
+          }
         }
       }
     } catch (err) {

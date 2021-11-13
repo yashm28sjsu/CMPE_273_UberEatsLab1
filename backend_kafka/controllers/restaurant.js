@@ -44,7 +44,7 @@ const create = async (data, callback) => {
             );
             const { password, ...remaining } = saved.toJSON();
             // eslint-disable-next-line no-underscore-dangle
-            callback(null, { restaurant: { ...remaining, type: 'USER' }, token });
+            callback(null, { restaurant: { ...remaining, type: 'RESTAURANT' }, token });
           } else {
             callback({ error }, null);
           }

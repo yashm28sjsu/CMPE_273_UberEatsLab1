@@ -21,16 +21,19 @@ const RestaurantCard = ({
   };
 
   const favouriteRestaurant = async () => {
-    const path = '/favourites/create/';
+    const path = '/favourite/create/';
     try {
       const headers = {
-        Authorization: `Bearer ${window.localStorage.getItem('token')}`,
+        Authorization: `JWT ${window.localStorage.getItem('token')}`,
       };
       const response = await axios.post(url + path,
-        { id: user.id, favourites: { RestaurantId: restaurant.id, UserId: user.id } }, { headers });
-      if (response.status === 200
-        && response.error == null) {
-        setFavourite(response.data.favourites);
+        // eslint-disable-next-line no-underscore-dangle
+        { restaurantId: restaurant._id, userId: user._id }, { headers });
+      if (response.status === 200) {
+        const result = response.data.response;
+        if (result.error == null) {
+          setFavourite(result.favourites);
+        }
       }
     } catch (err) {
       console.log(err);

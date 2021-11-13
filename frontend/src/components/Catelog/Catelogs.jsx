@@ -73,16 +73,18 @@ const Catelogs = () => {
   };
 
   const getRestaurants = async () => {
-    const path = '/restaurant/getAll';
+    const path = '/restaurant/getall';
     try {
-      const response = await axios.get(url + path);
-      if (response.status === 200
-        && response.data.restaurants != null
-        && response.data.restaurants) {
-        const { restaurants } = response.data;
-        setAllRestaurants(restaurants);
-        setPopularCards(getPopularCards(restaurants));
-        setAllCards(getAllCards(restaurants));
+      const response = await axios.post(url + path, {});
+      if (response.status === 200) {
+        const result = response.data.response;
+        if (result.restaurants != null
+        && result.restaurants) {
+          const { restaurants } = result;
+          setAllRestaurants(restaurants);
+          setPopularCards(getPopularCards(restaurants));
+          setAllCards(getAllCards(restaurants));
+        }
       }
     } catch (err) {
       console.log(err);
@@ -90,15 +92,18 @@ const Catelogs = () => {
   };
 
   const getFavourites = async () => {
-    const path = '/favourites/getFavourites/';
+    const path = '/user/getfavourites/';
     try {
       const headers = {
-        Authorization: `Bearer ${window.localStorage.getItem('token')}`,
+        Authorization: `JWT ${window.localStorage.getItem('token')}`,
       };
-      const response = await axios.post(url + path, { id: user.id }, { headers });
-      if (response.status === 200
-        && response.error == null) {
-        setFavourites(response.data.favourites);
+      // eslint-disable-next-line no-underscore-dangle
+      const response = await axios.post(url + path, { id: user._id }, { headers });
+      if (response.status === 200) {
+        const result = response.data.response;
+        if (result.error == null) {
+          setFavourites(result.favourites);
+        }
       }
     } catch (err) {
       console.log(err);
