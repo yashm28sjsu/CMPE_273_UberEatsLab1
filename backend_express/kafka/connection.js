@@ -17,7 +17,7 @@ class ConnectionProvider {
     const offset = new Offset(this.client);
 
     offset.fetch([{ topic: topics.RESPONSE, partition: 0, time: -1 }], (_err, data) => {
-      const latestOffset = data[topics.RESPONSE]['0'][0];
+      const latestOffset = data[topics.RESPONSE] ? data[topics.RESPONSE]['0'][0] : 0;
       console.log(`Consumer current offset: ${latestOffset}`);
       const consumer = new Consumer(
         this.client,

@@ -10,7 +10,7 @@ class ConnectionProvider {
     const offset = new Offset(client);
 
     offset.fetch([{ topic, partition: 0, time: -1 }], (_err, data) => {
-      const latestOffset = data[topic]['0'][0];
+      const latestOffset = data[topic] ? data[topic]['0'][0] : 0;
       console.log(`Consumer current offset: ${topic} ${latestOffset}`);
       const consumer = new Consumer(
         client,
