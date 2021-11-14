@@ -48,7 +48,8 @@ const OrderLineItems = () => {
           )));
           if (result.addresses.length > 0) {
             setSelectedAddress(result.addresses[0]);
-            dispatch(actions.getOrderAddressSelectedAction(result.addresses[0].id));
+            // eslint-disable-next-line no-underscore-dangle
+            dispatch(actions.getOrderAddressSelectedAction(result.addresses[0]._id));
           }
         }
       }
@@ -59,7 +60,8 @@ const OrderLineItems = () => {
 
   const onAddressChange = (e) => {
     setSelectedAddress(JSON.parse(e.target.value));
-    dispatch(actions.getOrderAddressSelectedAction(JSON.parse(e.target.value).id));
+    // eslint-disable-next-line no-underscore-dangle
+    dispatch(actions.getOrderAddressSelectedAction(JSON.parse(e.target.value)._id));
   };
 
   useEffect(() => {

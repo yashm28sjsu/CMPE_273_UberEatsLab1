@@ -6,7 +6,7 @@ const orderReducer = (state = {}, action) => {
   switch (action.type) {
     case actionTypes.ORDER_ADDRESS_SELECTED:
       return produce(state, (draftState) => {
-        draftState.AddressId = action.AddressId;
+        draftState.addressId = action.AddressId;
       });
     case actionTypes.ORDER_DELIVERY_MODE_SELECTED:
       return produce(state, (draftState) => {

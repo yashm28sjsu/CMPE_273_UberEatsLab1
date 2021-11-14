@@ -15,16 +15,16 @@ const ReceiptModal = ({ show, setShow, order }) => {
   const user = useSelector((state) => state.user);
   const [status, setStatus] = useState(order.status);
 
-  const dishes = order.orderlineitems.map((lineitem) => (
+  const dishes = order.lineitems.map((lineitem) => (
     <Row key="lineitem._id">
       <Col>
         {lineitem.quantity}
       </Col>
       <Col>
-        {lineitem.Dish.name}
+        {lineitem.dish.name}
       </Col>
       <Col style={{ textAlign: 'right' }}>
-        {`$${Math.round(lineitem.Dish.price * lineitem.quantity * 100) / 100}`}
+        {`$${Math.round(lineitem.dish.price * lineitem.quantity * 100) / 100}`}
       </Col>
     </Row>
   ));
@@ -59,7 +59,7 @@ const ReceiptModal = ({ show, setShow, order }) => {
         <p>
           Address:
           {' '}
-          {order.Address.address}
+          {order.address.address}
         </p>
         <p>
           Status:

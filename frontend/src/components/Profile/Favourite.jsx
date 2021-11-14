@@ -30,15 +30,16 @@ const Favourite = () => {
     });
     return groups.map((group) => {
       const cols = group.map((fav) => {
-        const { Restaurant, ...favourite } = fav;
+        const { restaurant, ...favourite } = fav;
         return (
           <Col className="restaurant-card">
             <RestaurantCard
-              restaurant={Restaurant}
+              restaurant={restaurant}
               dispatch={dispatch}
               setRestaurantSelected={setRestaurantSelected}
               existingFavourite={[favourite]}
-              key={Restaurant.id}
+              // eslint-disable-next-line no-underscore-dangle
+              key={restaurant._id}
             />
           </Col>
         );
@@ -52,15 +53,18 @@ const Favourite = () => {
   };
 
   const getFavouritesWithRestaurant = async () => {
-    const path = '/favourites/getFavouritesWithRestaurant/';
+    const path = '/user/getFavourites/';
     try {
       const headers = {
-        Authorization: `Bearer ${window.localStorage.getItem('token')}`,
+        Authorization: `JWT ${window.localStorage.getItem('token')}`,
       };
-      const response = await axios.post(url + path, { id: user.id }, { headers });
-      if (response.status === 200
-        && response.error == null) {
-        setFavouriteCards(getFavouriteCards(response.data.favourites));
+      // eslint-disable-next-line no-underscore-dangle
+      const response = await axios.post(url + path, { userId: user._id }, { headers });
+      if (response.status === 200) {
+        const result = response.data.response;
+        if (response.error == null) {
+          setFavouriteCards(getFavouriteCards(result.favourites));
+        }
       }
     } catch (err) {
       console.log(err);

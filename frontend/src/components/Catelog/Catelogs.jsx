@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ItemsCarousel from 'react-items-carousel';
@@ -34,8 +35,10 @@ const Catelogs = () => {
       restaurant={restaurant}
       dispatch={dispatch}
       setRestaurantSelected={setRestaurantSelected}
-      existingFavourite={favourites.filter((fav) => fav.RestaurantId === restaurant.id)}
-      key={restaurant.id}
+      // eslint-disable-next-line no-underscore-dangle
+      existingFavourite={favourites.filter((fav) => fav.restaurant._id === restaurant._id)}
+      // eslint-disable-next-line no-underscore-dangle
+      key={restaurant._id}
     />
   ));
 
@@ -51,14 +54,18 @@ const Catelogs = () => {
 
     return groups.map((group) => {
       const cols = group.map((restaurant) => {
-        console.log(JSON.stringify(favourites.filter((fav) => fav.RestaurantId === restaurant.id)));
+        console.log(`
+          ${favourites[0].restaurant._id === restaurant._id}
+          ${JSON.stringify(favourites.filter((fav) => fav.restaurant._id === restaurant._id))}
+        `);
         return (
           <Col className="restaurant-card">
             <RestaurantCard
               restaurant={restaurant}
               dispatch={dispatch}
               setRestaurantSelected={setRestaurantSelected}
-              existingFavourite={favourites.filter((fav) => fav.RestaurantId === restaurant.id)}
+              // eslint-disable-next-line no-underscore-dangle
+              existingFavourite={favourites.filter((fav) => fav.restaurant._id === restaurant._id)}
               key={restaurant.id}
             />
           </Col>
@@ -98,7 +105,7 @@ const Catelogs = () => {
         Authorization: `JWT ${window.localStorage.getItem('token')}`,
       };
       // eslint-disable-next-line no-underscore-dangle
-      const response = await axios.post(url + path, { id: user._id }, { headers });
+      const response = await axios.post(url + path, { userId: user._id }, { headers });
       if (response.status === 200) {
         const result = response.data.response;
         if (result.error == null) {

@@ -13,7 +13,7 @@ const Orders = () => {
   const user = useSelector((state) => state.user);
   const [orders, setOrders] = useState([]);
   const [filteredOrders, setFilteredOrders] = useState([]);
-  const [selectedOrder, setSelectedOrder] = useState({ orderlineitems: [], Address: {} });
+  const [selectedOrder, setSelectedOrder] = useState({ lineitems: [], address: {} });
   const [show, setShow] = useState(false);
 
   const openOrder = (order) => {
