@@ -70,6 +70,7 @@ app.post('/user/getdishes', authenticateUser, (req, res) => handleRequest(topics
 
 app.post('/order/create', authenticateUser, (req, res) => handleRequest(topics.ORDER_CREATE, req, res));
 app.post('/order/updatestatus', authenticateRestaurant, (req, res) => handleRequest(topics.ORDER_UPDATESTATUS, req, res));
+app.post('/order/cancel', authenticateUser, (req, res) => handleRequest(topics.ORDER_UPDATESTATUS, req, res));
 app.post('/user/getorders', authenticateUser, (req, res) => handleRequest(topics.USER_GETORDERS, req, res));
 app.post('/restaurant/getorders', authenticateRestaurant, (req, res) => handleRequest(topics.RESTAURANT_GETORDERS, req, res));
 

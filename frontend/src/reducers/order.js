@@ -14,6 +14,10 @@ const orderReducer = (state = {}, action) => {
       });
     case actionTypes.ORDER_PLACED:
       return {};
+    case actionTypes.ORDER_SPECIAL_INSTURCTIONS_CHANGED:
+      return produce(state, (draftState) => {
+        draftState.instructions = action.instructions;
+      });
     default:
       return state;
   }

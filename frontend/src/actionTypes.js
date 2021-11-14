@@ -10,6 +10,7 @@ const SEARCH_TEXT_UPDATED = 'searchTextUpdated';
 const DELIVERY_MODE_UPDATED = 'deliveryModeUpdated';
 const VEG_UPDATED = 'vegUpdated';
 const VEGAN_UPDATED = 'veganUpdated';
+const ORDER_SPECIAL_INSTURCTIONS_CHANGED = 'orderSpecialInstructionsChanged';
 
 export default {
   LOGIN_SUCCESS,
@@ -24,4 +25,5 @@ export default {
   DELIVERY_MODE_UPDATED,
   VEGAN_UPDATED,
   VEG_UPDATED,
+  ORDER_SPECIAL_INSTURCTIONS_CHANGED,
 };

@@ -12,8 +12,13 @@ const getOrderPlacedAction = () => (
   { type: actionTypes.ORDER_PLACED }
 );
 
+const getOrderSpecialInstructionChangedAction = (instructions) => (
+  { type: actionTypes.ORDER_SPECIAL_INSTURCTIONS_CHANGED, instructions }
+);
+
 export default {
   getOrderAddressSelectedAction,
   getOrderDeliveryModeSelectedAction,
   getOrderPlacedAction,
+  getOrderSpecialInstructionChangedAction,
 };

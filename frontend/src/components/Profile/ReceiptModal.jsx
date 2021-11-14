@@ -38,7 +38,29 @@ const ReceiptModal = ({ show, setShow, order }) => {
       };
       const response = await axios.post(
         url + path,
-        { id: order.id, status },
+        // eslint-disable-next-line no-underscore-dangle
+        { id: order._id, status },
+        { headers },
+      );
+      if (response.status === 200
+        && response.error == null) {
+        handleClose();
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const cancelOrder = async () => {
+    const path = '/order/cancel/';
+    try {
+      const headers = {
+        Authorization: `JWT ${window.localStorage.getItem('token')}`,
+      };
+      const response = await axios.post(
+        url + path,
+        // eslint-disable-next-line no-underscore-dangle
+        { id: order._id, status: 'CANCELLED' },
         { headers },
       );
       if (response.status === 200
@@ -84,6 +106,11 @@ const ReceiptModal = ({ show, setShow, order }) => {
           {' '}
           {order.type}
         </p>
+        <p>
+          Special Instructions:
+          {' '}
+          {order.instructions}
+        </p>
         <Container>
           <Row>
             <Col>
@@ -122,20 +149,29 @@ const ReceiptModal = ({ show, setShow, order }) => {
           </Row>
         </Container>
       </Modal.Body>
-      {
-        window.location.href.includes('restaurant')
-          ? (
-            <Modal.Footer>
-              <Button variant="secondary" onClick={handleClose}>
-                Close
-              </Button>
+      <Modal.Footer>
+        <Button variant="secondary" onClick={handleClose}>
+          Close
+        </Button>
+        {
+          window.location.href.includes('restaurant')
+            ? (
               <Button variant="primary" onClick={updateStatus}>
                 Update Status
               </Button>
-            </Modal.Footer>
-          )
-          : ''
-      }
+            )
+            : ''
+        }
+        {
+          window.location.href.includes('user') && order.status === 'PLACED'
+            ? (
+              <Button variant="danger" onClick={cancelOrder}>
+                Cancel Order
+              </Button>
+            )
+            : ''
+          }
+      </Modal.Footer>
     </Modal>
   );
 };

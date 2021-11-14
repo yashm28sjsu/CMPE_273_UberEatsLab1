@@ -64,6 +64,11 @@ const OrderLineItems = () => {
     dispatch(actions.getOrderAddressSelectedAction(JSON.parse(e.target.value)._id));
   };
 
+  const onInstructionsChanged = (e) => {
+    console.log(e.target.value);
+    dispatch(actions.getOrderSpecialInstructionChangedAction(e.target.value));
+  };
+
   useEffect(() => {
     getAddresses();
     dispatch(actions.getOrderDeliveryModeSelectedAction(''));
@@ -115,6 +120,11 @@ const OrderLineItems = () => {
       <Container style={{ width: '80%' }}>
         {rows}
       </Container>
+      <hr className="separator" />
+      <h4 className="stay-left">Special Instructions</h4>
+      <Form.Group className="mb-3">
+        <Form.Control as="textarea" rows={3} name="instructions" onClick={(e) => onInstructionsChanged(e)} />
+      </Form.Group>
       <hr className="separator" />
       <AddressModal
         show={show}

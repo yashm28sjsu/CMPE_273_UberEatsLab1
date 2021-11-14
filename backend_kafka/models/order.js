@@ -9,6 +9,7 @@ const schema = new Schema({
   deliverycost: Number,
   tax: Number,
   totalcost: Number,
+  instructions: String,
   userId: String,
   restaurantId: String,
   addressId: String,
@@ -33,6 +34,8 @@ const OrderSchema = Joi.object({
   tax: Joi.number(),
 
   totalcost: Joi.number(),
+
+  instructions: Joi.string(),
 
   lineitems: Joi.array().items(OrderLineItemSchema),
 
