@@ -11,15 +11,15 @@ const { upload } = require('./middlewares/upload');
 
 const app = express();
 // use cors to allow cross origin resource sharing
-// app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
-app.use(cors({ origin: 'http://18.218.85.175:3000', credentials: true }));
+app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
+// app.use(cors({ origin: 'http://18.218.85.175:3000', credentials: true }));
 app.use(express.json());
 const port = 3001;
 
 // Allow Access Control
 app.use((req, res, next) => {
-  // res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
-  res.setHeader('Access-Control-Allow-Origin', 'http://18.218.85.175:3000');
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+  // res.setHeader('Access-Control-Allow-Origin', 'http://18.218.85.175:3000');
   res.setHeader('Access-Control-Allow-Credentials', 'true');
   res.setHeader(
     'Access-Control-Allow-Methods',
