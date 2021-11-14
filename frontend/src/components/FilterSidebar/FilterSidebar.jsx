@@ -9,10 +9,6 @@ import './FilterSidebar.css';
 const FilterSidebar = () => {
   const dispatch = useDispatch();
 
-  const deliveryModeUpdated = () => {
-
-  };
-
   return (
     <div className="left">
       <h3 className="stay-left">All Stores</h3>

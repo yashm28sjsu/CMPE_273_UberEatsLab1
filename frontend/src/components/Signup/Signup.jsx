@@ -17,6 +17,7 @@ const { url } = config[env];
 const signup = async (e, user, dispatch, setLoggedIn, setError) => {
   e.preventDefault();
 
+  console.log(user);
   const isRestaurant = window.location.href.includes('restaurant');
   const path = isRestaurant ? '/restaurant/create' : '/user/create';
   try {
@@ -55,6 +56,8 @@ const Signup = () => {
   const [isLoggedIn, setLoggedIn] = useState(false);
   const [user, setUser] = useState({
     country: 'United States',
+    type: '',
+    deliveryMode: '',
   });
   const [error, setError] = useState('');
   const dispatch = useDispatch();

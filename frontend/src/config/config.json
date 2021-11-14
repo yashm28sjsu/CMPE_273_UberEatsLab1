@@ -3,6 +3,6 @@
     "url": "http://localhost:3001"
   },
   "production": {
-    "url": "http://localhost:3001"
+    "url": "http://18.218.85.175:3001"
   }
 }

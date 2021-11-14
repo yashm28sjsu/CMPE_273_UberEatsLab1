@@ -1,10 +1,9 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
   Button,
   Col, Container, Form, Modal, Row,
 } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
 
 const config = require('../../config/config.json');
 
@@ -12,7 +11,6 @@ const env = process.env.NODE_ENV || 'development';
 const { url } = config[env];
 
 const ReceiptModal = ({ show, setShow, order }) => {
-  const user = useSelector((state) => state.user);
   const [status, setStatus] = useState(order.status);
 
   const dishes = order.lineitems.map((lineitem) => (
