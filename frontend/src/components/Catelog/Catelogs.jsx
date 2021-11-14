@@ -53,24 +53,19 @@ const Catelogs = () => {
     });
 
     return groups.map((group) => {
-      const cols = group.map((restaurant) => {
-        // console.log(`
-        //   ${favourites[0].restaurant._id === restaurant._id}
-        //   ${JSON.stringify(favourites.filter((fav) => fav.restaurant._id === restaurant._id))}
-        // `);
-        return (
-          <Col className="restaurant-card">
-            <RestaurantCard
-              restaurant={restaurant}
-              dispatch={dispatch}
-              setRestaurantSelected={setRestaurantSelected}
-              // eslint-disable-next-line no-underscore-dangle
-              existingFavourite={favourites.filter((fav) => fav.restaurant._id === restaurant._id)}
-              key={restaurant.id}
-            />
-          </Col>
-        );
-      });
+      const cols = group.map((restaurant) => (
+        <Col className="restaurant-card">
+          <RestaurantCard
+            restaurant={restaurant}
+            dispatch={dispatch}
+            setRestaurantSelected={setRestaurantSelected}
+            // eslint-disable-next-line no-underscore-dangle
+            existingFavourite={favourites.filter((fav) => fav.restaurant._id === restaurant._id)}
+            key={restaurant.id}
+          />
+        </Col>
+      ));
+
       return (
         <Row>
           {cols}
