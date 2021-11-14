@@ -17,17 +17,22 @@ const { url } = config[env];
 const login = async (e, user, dispatch, setLoggedIn, setError) => {
   e.preventDefault();
 
-  const path = window.location.href.includes('restaurant') ? '/restaurant/login' : '/user/login';
+  const isRestaurant = window.location.href.includes('restaurant');
+  const path = isRestaurant ? '/restaurant/login' : '/user/login';
   try {
     const response = await axios.post(url + path, user);
     if (response.status === 200) {
+      console.log(JSON.stringify(response));
       const result = response.data.response;
       if (result.token != null) {
         window.localStorage.setItem('token', result.token);
         // console.log(response.data.user);
-        dispatch(userActions.getLoginAction(result.user));
+        // dispatch(userActions.getLoginAction(result.user));
+        dispatch(userActions.getLoginAction(isRestaurant ? result.restaurant : result.user));
+        console.log('login');
         setLoggedIn(true);
       } else {
+        console.log('error');
         setError(response.data.error);
       }
     }
@@ -61,7 +66,7 @@ const Login = () => {
 
   const redirectTag = isRestaurant ? (<Redirect to="/restaurant/orders" />) : (<Redirect to="/feed" />);
   const redirect = isLoggedIn ? redirectTag : '';
-
+  console.log(isLoggedIn);
   return (
     <div className="form-container">
       {redirect}

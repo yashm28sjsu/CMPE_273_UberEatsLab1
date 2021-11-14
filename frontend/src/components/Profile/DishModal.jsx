@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import {
   Button, Col, Form, Modal, Row,
 } from 'react-bootstrap';
-import produce from 'immer';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 
@@ -13,7 +12,9 @@ const { url } = config[env];
 
 const DishModal = ({ show, setShow, dish }) => {
   const user = useSelector((state) => state.user);
+  const [image, setImage] = useState('');
   const [dishData, setDishData] = useState({});
+  const [imageURL, setImageURL] = useState('');
   // console.log(dish);
   const onChangeListener = (e) => {
     const key = e.target.getAttribute('name');
@@ -22,6 +23,33 @@ const DishModal = ({ show, setShow, dish }) => {
     const clone = { ...dishData };
     clone[key] = value;
     setDishData(clone);
+  };
+
+  const setFile = (e) => {
+    setImage(e.target.files[0]);
+  };
+
+  const handleUpload = async () => {
+    const path = '/file/upload';
+    const formData = new FormData();
+    formData.append('file', image);
+    const headers = {
+      Authorization: `JWT ${window.localStorage.getItem('token')}`,
+      // 'Content-Type': 'multipart/form-data',
+    };
+    const response = await axios.post(
+      url + path,
+      // eslint-disable-next-line no-underscore-dangle
+      formData,
+      { headers },
+    );
+    if (response.status === 200) {
+      if (response.error != null) {
+        console.log(response.error);
+      } else {
+        setImageURL(response.data.url);
+      }
+    }
   };
 
   const handleClose = () => setShow(false);
@@ -38,7 +66,7 @@ const DishModal = ({ show, setShow, dish }) => {
       const response = await axios.post(
         url + path,
         // eslint-disable-next-line no-underscore-dangle
-        { ...dishData, restaurantId: user._id },
+        { ...dishData, restaurantId: user._id, image: imageURL },
         { headers },
       );
       if (response.status === 200
@@ -51,8 +79,10 @@ const DishModal = ({ show, setShow, dish }) => {
   };
 
   useEffect(() => {
-    setDishData({ ...dish });
-  }, []);
+    const { _id, __v, ...remaining } = dish;
+    setDishData({ ...remaining, id: _id });
+    setImageURL(dish.image);
+  }, [dish]);
 
   return (
     <div>
@@ -83,7 +113,16 @@ const DishModal = ({ show, setShow, dish }) => {
               Image
             </Form.Label>
             <Col sm="10">
-              <Form.Control type="text" defaultValue={dish.image} className="modal-Qty" name="image" onChange={(e) => onChangeListener(e)} />
+              {imageURL !== '' ? <a href={imageURL}>Open Image</a> : '' }
+              {/* <Form.Control
+                disabled
+                type="text"
+                defaultValue={dish.image}
+                className="modal-Qty"
+                name="image"
+                id="iamge"
+              /> */}
+              <Form.Control type="file" onChange={(e) => setFile(e)} />
             </Col>
           </Form.Group>
           <Form.Group as={Row} className="mb-3">
@@ -116,6 +155,9 @@ const DishModal = ({ show, setShow, dish }) => {
           </Form.Group>
         </Form>
         <Modal.Footer>
+          <Button variant="secondary" onClick={handleUpload}>
+            Upload
+          </Button>
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>

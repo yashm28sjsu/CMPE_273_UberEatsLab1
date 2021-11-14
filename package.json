@@ -1,5 +1,7 @@
 {
   "dependencies": {
+    "aws-sdk": "^2.1028.0",
+    "multer": "^1.4.3",
     "redux": "^4.1.1"
   }
 }

@@ -4,6 +4,7 @@ const { Order, OrderSchema } = require('../models/order');
 const { Restaurant } = require('../models/restaurant');
 const { Dish } = require('../models/dish');
 const { Address } = require('../models/address');
+const { User } = require('../models/user');
 
 const create = async (order, callback) => {
   console.log(order);
@@ -101,18 +102,47 @@ const getRestaurantOrders = async (data, callback) => {
       restaurantId,
     });
     const dborders = dbo.map((x) => x.toJSON());
-    const restaurantIds = dborders.map((order) => order.restaurantId);
-    const dbrest = await Restaurant.find({
-      _id: { $in: restaurantIds },
+    const userIds = dborders.map((order) => order.userId);
+    const dbu = await User.find({
+      _id: { $in: userIds },
     }).exec();
-    const dbrestaurants = dbrest.map((x) => x.toJSON());
+    const dbusers = dbu.map((x) => x.toJSON());
     // eslint-disable-next-line no-shadow
-    const ordersWithRestaurants = dborders.map(({ restaurantId, ...fav }) => ({
-      ...fav,
+    const ordersWithU = dborders.map(({ userId, ...order }) => ({
+      ...order,
       // eslint-disable-next-line no-underscore-dangle
-      restaurant: dbrestaurants.filter((rest) => rest._id.toString() === restaurantId)[0],
+      user: dbusers.filter((user) => user._id.toString() === userId)[0],
     }));
-    callback(null, { orders: ordersWithRestaurants });
+    const dishIds = [];
+    ordersWithU.forEach((order) => {
+      order.lineitems.forEach((line) => dishIds.push(line.dishId));
+    });
+    const dbd = await Dish.find({
+      _id: { $in: dishIds },
+    }).exec();
+    const dbdishes = dbd.map((x) => x.toJSON());
+    const ordersWithUD = ordersWithU.map(
+      ({ lineitems, ...order }) => ({
+        ...order,
+        lineitems: lineitems.map(({ dishId, ...line }) => ({
+          ...line,
+          // eslint-disable-next-line no-underscore-dangle
+          dish: dbdishes.filter((dish) => dish._id.toString() === dishId)[0],
+        })),
+      }),
+    );
+    const addressIds = dborders.map((order) => order.addressId);
+    const dbadd = await Address.find({
+      _id: { $in: addressIds },
+    }).exec();
+    const dbaddresses = dbadd.map((x) => x.toJSON());
+    // eslint-disable-next-line no-shadow
+    const ordersWithUDA = ordersWithUD.map(({ addressId, ...order }) => ({
+      ...order,
+      // eslint-disable-next-line no-underscore-dangle
+      address: dbaddresses.filter((add) => add._id.toString() === addressId)[0],
+    }));
+    callback(null, { orders: ordersWithUDA });
   } catch (error) {
     callback({ error }, null);
   }

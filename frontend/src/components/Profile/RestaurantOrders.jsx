@@ -13,7 +13,7 @@ const RestaurantOrders = () => {
   const user = useSelector((state) => state.user);
   const [orders, setOrders] = useState([]);
   const [filteredOrders, setFilteredOrders] = useState([]);
-  const [selectedOrder, setSelectedOrder] = useState({ orderlineitems: [], Address: {} });
+  const [selectedOrder, setSelectedOrder] = useState({ lineitems: [], address: {} });
   const [show, setShow] = useState(false);
 
   const openOrder = (order) => {
@@ -22,14 +22,15 @@ const RestaurantOrders = () => {
   };
 
   const getOrderRows = (orderdata) => orderdata.map((order) => {
-    const dateParts = order.createdAt.split('-');
-    const jsDate = new Date(dateParts[0], dateParts[1] - 1, dateParts[2].substr(0, 2));
+    // const dateParts = order.createdAt.split('-');
+    // const jsDate = new Date(dateParts[0], dateParts[1] - 1, dateParts[2].substr(0, 2));
+    const jsDate = new Date();
 
     return (
       <Row key={order.id} onClick={(_e) => openOrder(order)}>
         <div className="order-row">
-          <h5>{`${order.User.firstname} ${order.User.lastname}`}</h5>
-          <p>{`${order.orderlineitems.length} items for $${order.totalcost} on ${jsDate.toDateString()}`}</p>
+          <h5>{`${order.user.firstname} ${order.user.lastname}`}</h5>
+          <p>{`${order.lineitems.length} items for $${order.totalcost} on ${jsDate.toDateString()}`}</p>
           <p>{`Status: ${order.status} Type: ${order.type}`}</p>
         </div>
         <hr />
@@ -38,17 +39,20 @@ const RestaurantOrders = () => {
   });
 
   const getOrders = async () => {
-    const path = '/order/getRestaurantOrders/';
+    const path = '/restaurant/getOrders/';
     try {
       const headers = {
-        Authorization: `Bearer ${window.localStorage.getItem('token')}`,
+        Authorization: `JWT ${window.localStorage.getItem('token')}`,
       };
-      const response = await axios.post(url + path, { id: user.id }, { headers });
-      if (response.status === 200
-        && response.error == null) {
-        const data = response.data.orders;
-        setOrders(data);
-        setFilteredOrders(getOrderRows(data));
+      // eslint-disable-next-line no-underscore-dangle
+      const response = await axios.post(url + path, { restaurantId: user._id }, { headers });
+      if (response.status === 200) {
+        const result = response.data.response;
+        if (result.error == null) {
+          const data = result.orders;
+          setOrders(data);
+          setFilteredOrders(getOrderRows(data));
+        }
       }
     } catch (err) {
       console.log(err);

@@ -6,6 +6,8 @@ const cors = require('cors');
 const topics = require('./topics');
 const { setupPassport, authenticateUser, authenticateRestaurant } = require('./middlewares/passport');
 const dbconfig = require('./config/config.json');
+const uploadFile = require('./middlewares/s3');
+const { upload } = require('./middlewares/upload');
 
 const app = express();
 // use cors to allow cross origin resource sharing
@@ -78,6 +80,15 @@ app.post('/user/getaddresses', authenticateUser, (req, res) => handleRequest(top
 app.post('/favourite/create', authenticateUser, (req, res) => handleRequest(topics.FAVOURITE_CREATE, req, res));
 app.post('/favourite/remove', authenticateUser, (req, res) => handleRequest(topics.FAVOURITE_REMOVE, req, res));
 app.post('/user/getfavourites', authenticateUser, (req, res) => handleRequest(topics.USER_GETFAVOURITES, req, res));
+
+app.post('/file/upload', [authenticateRestaurant, upload.single("file")], async (req, res) => {
+  const file = req.file;
+
+  if (file) {
+    const uploadResult = await uploadFile(file);
+    res.send({ url: uploadResult['Location'] });
+  }
+});
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
