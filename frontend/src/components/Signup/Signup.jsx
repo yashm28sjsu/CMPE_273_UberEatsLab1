@@ -21,7 +21,10 @@ const signup = async (e, user, dispatch, setLoggedIn, setError) => {
   const isRestaurant = window.location.href.includes('restaurant');
   const path = isRestaurant ? '/restaurant/create' : '/user/create';
   try {
-    const response = await axios.post(url + path, user);
+    // eslint-disable-next-line no-unused-vars
+    const { type, deliveryMode, ...remaining } = user;
+    const data = isRestaurant ? user : remaining;
+    const response = await axios.post(url + path, data);
     if (response.status === 200) {
       console.log(`${JSON.stringify(response.data)}`);
       const result = response.data.response;
