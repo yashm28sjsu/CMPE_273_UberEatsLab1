@@ -7,6 +7,8 @@ const userReducer = (state = {}, action) => {
       return action.user;
     case actionTypes.LOGOUT:
       return {};
+    case actionTypes.USER_UPDATE:
+      return action.user;
     default:
       return state;
   }

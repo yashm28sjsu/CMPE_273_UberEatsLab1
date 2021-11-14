@@ -47,7 +47,7 @@ const getOrders = async (data, callback) => {
   try {
     const dbo = await Order.find({
       userId,
-    });
+    }).sort({ _id: 1 });
     const dborders = dbo.map((x) => x.toJSON());
     const restaurantIds = dborders.map((order) => order.restaurantId);
     const dbrest = await Restaurant.find({
@@ -100,7 +100,7 @@ const getRestaurantOrders = async (data, callback) => {
   try {
     const dbo = await Order.find({
       restaurantId,
-    });
+    }).sort({ _id: 1 });
     const dborders = dbo.map((x) => x.toJSON());
     const userIds = dborders.map((order) => order.userId);
     const dbu = await User.find({

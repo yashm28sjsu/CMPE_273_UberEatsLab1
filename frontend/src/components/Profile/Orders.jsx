@@ -1,6 +1,9 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Container, Form, Row } from 'react-bootstrap';
+import {
+  Button,
+  Container, Form, Row, Col,
+} from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import ReceiptModal from './ReceiptModal';
 
@@ -15,6 +18,9 @@ const Orders = () => {
   const [filteredOrders, setFilteredOrders] = useState([]);
   const [selectedOrder, setSelectedOrder] = useState({ lineitems: [], address: {} });
   const [show, setShow] = useState(false);
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(5);
+  const [paginatedOrders, setPaginatedOrders] = useState([]);
 
   const openOrder = (order) => {
     setSelectedOrder(order);
@@ -44,14 +50,18 @@ const Orders = () => {
       const headers = {
         Authorization: `JWT ${window.localStorage.getItem('token')}`,
       };
-      // eslint-disable-next-line no-underscore-dangle
-      const response = await axios.post(url + path, { userId: user._id }, { headers });
+      const response = await axios.post(
+        url + path,
+        // eslint-disable-next-line no-underscore-dangle
+        { userId: user._id },
+        { headers },
+      );
       if (response.status === 200) {
         const result = response.data.response;
-        console.log(JSON.stringify(result));
+        // console.log(JSON.stringify(result));
         if (result.error == null) {
           const data = result.orders;
-          console.log(data);
+          // console.log(data);
           setOrders(data);
           setFilteredOrders(getOrderRows(data));
         }
@@ -65,10 +75,30 @@ const Orders = () => {
     getOrders();
   }, []);
 
+  useEffect(() => {
+    // console.log(filteredOrders);
+    const low = page > 0 ? pageSize * (page - 1) : 0;
+    const sum = low + parseInt(pageSize, 10);
+    const high = sum <= filteredOrders.length
+      ? sum
+      : filteredOrders.length;
+    console.log(`${low} ${high} ${pageSize} ${page} ${filteredOrders.length}`);
+    setPaginatedOrders(filteredOrders.slice(low, high));
+  }, [pageSize, page, filteredOrders]);
+
   const onTypeChange = (e) => {
     setFilteredOrders(getOrderRows(orders.filter((order) => (
       e.target.value === 'ALL' || order.status === e.target.value
     ))));
+  };
+
+  const onPageSizeChange = (e) => {
+    setPageSize(e.target.value);
+  };
+
+  const onPageChange = (num) => {
+    console.log(num);
+    setPage(num);
   };
 
   return (
@@ -83,8 +113,34 @@ const Orders = () => {
         <option value="CANCELLED">CANCELLED</option>
       </Form.Control>
       <Container style={{ margin: '10px' }}>
-        {filteredOrders}
+        {paginatedOrders}
       </Container>
+      <Form.Group>
+        <Row>
+          <Col sm="1" />
+          <Col sm="1">
+            <span>Page Size:</span>
+          </Col>
+          <Col sm="1">
+            <Form.Control type="number" name="pageSize" defaultValue={pageSize} onChange={(e) => onPageSizeChange(e)} />
+          </Col>
+          <Col sm="1">
+            <Button onClick={(_e) => onPageChange(1)}>{'<<'}</Button>
+          </Col>
+          <Col sm="1">
+            <Button onClick={(_e) => onPageChange(page === 1 ? 1 : page - 1)}>{'<'}</Button>
+          </Col>
+          <Col sm="1">
+            <span>{ page }</span>
+          </Col>
+          <Col sm="1">
+            <Button onClick={(_e) => onPageChange(page === (filteredOrders.length / pageSize) ? page : page + 1)}>{'>'}</Button>
+          </Col>
+          <Col sm="1">
+            <Button onClick={(_e) => onPageChange(Math.ceil(filteredOrders.length / pageSize))}>{'>>'}</Button>
+          </Col>
+        </Row>
+      </Form.Group>
       <ReceiptModal
         show={show}
         setShow={setShow}

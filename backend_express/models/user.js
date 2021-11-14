@@ -10,6 +10,7 @@ const schema = new Schema({
   profile_picture: String,
   dob: String,
   country: String,
+  location: String,
   contact: String,
 });
 
@@ -54,6 +55,8 @@ const UserSchema = Joi.object({
 
   country: Joi.string()
     .valid('United States', 'India'),
+
+  location: Joi.string().allow(null),
 
   contact: Joi.string()
     .length(10)
