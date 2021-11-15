@@ -4,16 +4,16 @@ const getSearchTextUpdatedAction = (text) => (
   { type: actionTypes.SEARCH_TEXT_UPDATED, text }
 );
 
-const getDeliveryModeUpdatedAction = (text) => (
-  { type: actionTypes.DELIVERY_MODE_UPDATED, text }
+const getDeliveryModeUpdatedAction = (deliveryMode) => (
+  { type: actionTypes.DELIVERY_MODE_UPDATED, deliveryMode }
 );
 
-const getVegUpdatedAction = (text) => (
-  { type: actionTypes.VEG_UPDATED, text }
+const getVegUpdatedAction = (veg) => (
+  { type: actionTypes.VEG_UPDATED, veg }
 );
 
-const getVeganUpdatedAction = (text) => (
-  { type: actionTypes.VEGAN_UPDATED, text }
+const getVeganUpdatedAction = (vegan) => (
+  { type: actionTypes.VEGAN_UPDATED, vegan }
 );
 
 export default {
