@@ -125,8 +125,8 @@ const Catelogs = () => {
       const isVeg = search.veg && JSON.stringify(restaurant).includes('VEG');
       const isVegan = search.vegan && JSON.stringify(restaurant).includes('VEGAN');
       return (
-        JSON.stringify(restaurant).includes(search.text)
-        || JSON.stringify(restaurant).includes(search.deliveryMode)
+        (JSON.stringify(restaurant).includes(search.text)
+        && JSON.stringify(restaurant).includes(search.deliveryMode))
         || isVeg || isVegan
       );
     });
