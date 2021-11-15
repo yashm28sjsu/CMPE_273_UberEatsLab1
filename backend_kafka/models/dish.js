@@ -34,7 +34,7 @@ const DishSchema = Joi.object({
 
   description: Joi.string(),
 
-  image: Joi.string().allow(null),
+  image: Joi.string().allow(null, ''),
 
   category: Joi.string().allow(null),
 
