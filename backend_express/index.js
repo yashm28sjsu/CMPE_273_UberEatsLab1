@@ -8,18 +8,19 @@ const { setupPassport, authenticateUser, authenticateRestaurant } = require('./m
 const dbconfig = require('./config/config.json');
 const uploadFile = require('./middlewares/s3');
 const { upload } = require('./middlewares/upload');
+const { Restaurant } = require('./models/restaurant');
 
 const app = express();
 // use cors to allow cross origin resource sharing
-// app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
-app.use(cors({ origin: 'http://18.218.85.175:3000', credentials: true }));
+app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
+// app.use(cors({ origin: 'http://18.218.85.175:3000', credentials: true }));
 app.use(express.json());
 const port = 3001;
 
 // Allow Access Control
 app.use((req, res, next) => {
-  // res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
-  res.setHeader('Access-Control-Allow-Origin', 'http://18.218.85.175:3000');
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+  // res.setHeader('Access-Control-Allow-Origin', 'http://18.218.85.175:3000');
   res.setHeader('Access-Control-Allow-Credentials', 'true');
   res.setHeader(
     'Access-Control-Allow-Methods',
@@ -36,7 +37,7 @@ app.use((req, res, next) => {
 setupPassport();
 app.use(passport.initialize());
 
-mongoose.connect(dbconfig.development.url).then(() => console.log("Database connected"));
+mongoose.connect(dbconfig.development.url, { maxPoolSize: 10 }).then(() => console.log("Database connected"));
 
 const handleRequest = (topic, req, res) => {
   kafka.makeRequest(topic, req.body, (error, response) => {
@@ -88,6 +89,16 @@ app.post('/file/upload', [authenticateRestaurant, upload.single("file")], async 
   if (file) {
     const uploadResult = await uploadFile(file);
     res.send({ url: uploadResult['Location'] });
+  }
+});
+
+app.post('/restaurant/getallwithoutkafka', async (req, res) => {
+  try {
+    const restaurants = await Restaurant.find();
+    res.send({ restaurants });
+  } catch (error) {
+    console.log(error);
+    res.send({ error });
   }
 });
 

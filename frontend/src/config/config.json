@@ -1,8 +1,8 @@
 {
   "development": {
-    "url": "http://18.218.85.175:3001"
+    "url": "http://localhost:3001"
   },
   "production": {
-    "url": "http://18.218.85.175:3001"
+    "url": "http://localhost:3001"
   }
 }

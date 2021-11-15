@@ -29,7 +29,7 @@ const handleRequest = (message, route, topic) => {
 };
 
 const main = async () => {
-  await mongoose.connect(dbconfig.development.url);
+  await mongoose.connect(dbconfig.development.url, { maxPoolSize: 10 });
   console.log('Database Connected');
 
   connection.setConsumer(topics.USER_CREATE, user, handleRequest);
