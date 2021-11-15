@@ -31,7 +31,7 @@ const FilterSidebar = () => {
                 label="Pickup"
                 name="deliveryMode"
                 type="radio"
-                onClick={(_e) => dispatch(actions.getDeliveryModeUpdatedAction('DELIVERY'))}
+                onClick={(_e) => dispatch(actions.getDeliveryModeUpdatedAction('PICKUP'))}
               />
             </div>
           </Col>
