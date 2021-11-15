@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 import actionTypes from '../actionTypes';
 
-const dishesReducer = (state = { deliveryMode: '', text: '' }, action) => {
+const dishesReducer = (state = '', action) => {
   switch (action.type) {
     case actionTypes.SEARCH_TEXT_UPDATED:
       return { ...state, text: action.text };
