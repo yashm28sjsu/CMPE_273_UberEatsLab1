@@ -1,0 +1,24 @@
+.sidebar-button {
+  width: 100%;
+  border: none !important;
+  color: black !important;
+  background-color: white !important;
+}
+
+.sidebar-button:hover {
+  background-color: lightgray !important;
+}
+
+.active {
+  color: white !important;
+  background-color: #4F9300 !important;
+}
+
+.sidebar-link {
+  color: inherit;
+  text-decoration: none !important;
+}
+
+.order-row:hover {
+  background-color: lightgray;
+}

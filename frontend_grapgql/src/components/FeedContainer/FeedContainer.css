@@ -1,0 +1,14 @@
+.split-vertical {
+  display: flex;
+  flex-direction: row;
+}
+
+.left {
+  width: 25%;
+  margin: 10px;
+}
+
+.right {
+  width: 75%;
+  margin: 10px;
+}

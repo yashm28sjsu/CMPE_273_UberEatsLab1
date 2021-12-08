@@ -1,0 +1,26 @@
+.form-container {
+  width: 60%;
+  height: 100%;
+  display: flex;
+  margin: auto;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.submit {
+  width: 100%;
+  background-color: #4F9300 !important;
+  border: none !important;
+}
+
+.bottom-text {
+  width: 100%;
+}
+
+.row-tall {
+  margin-bottom: 40px;
+}
+
+.stay-left {
+  text-align: left;
+}

@@ -1,0 +1,34 @@
+html, body, #root {
+  height: 100%;
+  margin: 0;
+}
+
+.uber {
+  font-family: UberMoveText-Medium, Helvetica, sans-serif;
+}
+
+.ubertitle {
+  font-size: xx-large !important;
+  font-weight: 600;
+}
+
+.ubertext {
+  font-size: x-large !important;
+  font-weight: 400;
+}
+
+.uberblack {
+  color: #262626;
+  text-decoration: none;
+}
+
+.ubergreen {
+  color: #4F9300;
+  text-decoration: none;
+}
+
+.error {
+  color: red;
+  margin-bottom: 5px;
+  margin-top: 5px;
+}
