@@ -16,31 +16,32 @@ const config = require('../../config/config.json');
 const env = process.env.NODE_ENV || 'development';
 const { url } = config[env];
 
-// const login = async (e, user, dispatch, setLoggedIn, setError) => {
-//   e.preventDefault();
+const login = async (e, user, dispatch, setLoggedIn, setError) => {
+  e.preventDefault();
 
-//   const isRestaurant = window.location.href.includes('restaurant');
-//   const path = isRestaurant ? '/restaurant/login' : '/user/login';
-//   try {
-//     const response = await axios.post(url + path, user);
-//     if (response.status === 200) {
-//       console.log(JSON.stringify(response));
-//       const result = response.data.response;
-//       if (result.token != null) {
-//         window.localStorage.setItem('token', result.token);
-//         // console.log(response.data.user);
-//         // dispatch(userActions.getLoginAction(result.user));
-//         dispatch(userActions.getLoginAction(isRestaurant ? result.restaurant : result.user));
-//         console.log('login');
-//         setLoggedIn(true);
-//       } else {
-//         console.log('error');
-//         setError(response.data.error);
-//       }
-//     }
-//   } catch (err) {
-//     // console.log(err);
-//   }
+  const isRestaurant = window.location.href.includes('restaurant');
+  const path = isRestaurant ? '/restaurant/login' : '/user/login';
+  try {
+    const response = await axios.post(url + path, user);
+    if (response.status === 200) {
+      console.log(JSON.stringify(response));
+      const result = response.data.response;
+      if (result.token != null) {
+        window.localStorage.setItem('token', result.token);
+        // console.log(response.data.user);
+        // dispatch(userActions.getLoginAction(result.user));
+        dispatch(userActions.getLoginAction(isRestaurant ? result.restaurant : result.user));
+        console.log('login');
+        setLoggedIn(true);
+      } else {
+        console.log('error');
+        setError(response.data.error);
+      }
+    }
+  } catch (err) {
+    // console.log(err);
+  }
+};
 
 //   axios.defaults.withCredentials = true;
 // };
@@ -56,25 +57,25 @@ const onChangeListener = (e, setState) => {
   ));
 };
 
-const LOGIN = gql`
-  mutation($user: UserInput) {
-  create(user: $user) {
-    user {
-      _id
-      firstname
-      lastname
-      email
-    }
-    token
-    error
-  }
-}
+//   const LOGIN = gql`
+//   mutation($user: UserInput) {
+//   create(user: $user) {
+//     user {
+//       _id
+//       firstname
+//       lastname
+//       email
+//     }
+//     token
+//     error
+//   }
+// }
 
-`;
+// `;
 
 const Login = () => {
   const [isLoggedIn, setLoggedIn] = useState(false);
-  const [create, { data: userData }] = useMutation(LOGIN);
+  // const [create, { data: userData }] = useMutation(LOGIN);
   const [user, setUser] = useState({});
   const [error, setError] = useState('');
   const dispatch = useDispatch();

@@ -21,6 +21,29 @@ const RestaurantOrders = () => {
     setShow(true);
   };
 
+  useEffect(() => {
+    console.log({
+      updateOrderStatus: {
+        order: {
+          restaurant: {
+            name: 'Jack In The Box',
+          },
+          totalcost: 5.16,
+          instructions: 'test',
+          status: 'DELIVERED',
+          type: 'DELIVERY',
+          lineitems: {
+            dish: {
+              name: 'French Fries',
+            },
+            quantity: 2,
+            cost: 5.16,
+          },
+        },
+      },
+    });
+  }, []);
+
   const getOrderRows = (orderdata) => orderdata.map((order) => {
     // const dateParts = order.createdAt.split('-');
     // const jsDate = new Date(dateParts[0], dateParts[1] - 1, dateParts[2].substr(0, 2));
